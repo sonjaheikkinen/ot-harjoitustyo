@@ -1,0 +1,114 @@
+commit 8731b753053bf70867a9499ebda449e6dd554a91
+Author: Sonja Heikkinen <sonja.t.heikkinen@hotmail.com>
+Date:   Tue Mar 12 13:38:00 2019 +0200
+
+    poisto ja uudelleennimeäminen
+
+ tiedostoja/file2             | 0
+ tiedostoja/{file1 => file22} | 0
+ 2 files changed, 0 insertions(+), 0 deletions(-)
+
+commit 838b9dbb94b5db9f5b7300a84fc979223ca20ab3
+Author: Sonja Heikkinen <sonja.t.heikkinen@hotmail.com>
+Date:   Tue Mar 12 13:33:34 2019 +0200
+
+    Tiedostoja, file1, file2 ja file3 luotu
+
+ tiedostoja/file1 | 0
+ tiedostoja/file2 | 0
+ tiedostoja/file3 | 0
+ 3 files changed, 0 insertions(+), 0 deletions(-)
+
+commit 71025331ccd8698dc043d66ae6317f0aee444ef1
+Author: Sonja Heikkinen <sonja.t.heikkinen@hotmail.com>
+Date:   Tue Mar 12 13:25:51 2019 +0200
+
+    eka.txt ja kolmas.txt muokattu
+
+ eka.txt    | 7 ++-----
+ kolmas.txt | 2 +-
+ 2 files changed, 3 insertions(+), 6 deletions(-)
+
+commit 81c92bd365520c1673b6bc7c0460821e36541e1b
+Author: Sonja Heikkinen <sonja.t.heikkinen@hotmail.com>
+Date:   Tue Mar 12 13:22:47 2019 +0200
+
+    tiedosto.txt uudelleennimetty: eka.txt
+
+ tiedosto.txt => eka.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+commit 2d52f47cc50dbc3c15377bcefebede6285a0a9a3
+Author: Sonja Heikkinen <sonja.t.heikkinen@hotmail.com>
+Date:   Tue Mar 12 13:20:51 2019 +0200
+
+    toinen.txt poistettu
+
+ toinen.txt | 1 -
+ 1 file changed, 1 deletion(-)
+
+commit 2ece2fcb810781ce22a3d6558bc2bb4445283eba
+Author: Sonja Heikkinen <sonja.t.heikkinen@hotmail.com>
+Date:   Tue Mar 12 13:18:08 2019 +0200
+
+    Tekstiä muokattu tiedostosta tiedosto.txt
+
+ tiedosto.txt | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
+
+commit 5880b4060c11d345470c995fe2f0ce7498a2e379
+Author: Sonja Heikkinen <sonja.t.heikkinen@hotmail.com>
+Date:   Tue Mar 12 13:15:56 2019 +0200
+
+    Tekstiä lisätty tiedostoon tiedosto.txt
+
+ tiedosto.txt | 21 ++++++++++++++++++++-
+ 1 file changed, 20 insertions(+), 1 deletion(-)
+
+commit 9e09dad9208de2775f4fc9202b06c4d6050c8ec9
+Author: Sonja Heikkinen <sonja.t.heikkinen@hotmail.com>
+Date:   Tue Mar 12 11:56:08 2019 +0200
+
+    Hakemisto stuff ja siellä oleva tiedosto luotu
+
+ stuff/stufftiedosto.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+commit f38e9fee05a82e3994df789891063ae8b209f1ac
+Author: Sonja Heikkinen <sonja.t.heikkinen@hotmail.com>
+Date:   Tue Mar 12 11:53:50 2019 +0200
+
+    Muutoksia tiedostoihin toinen.txt ja kolmas.txt
+
+ kolmas.txt | 1 +
+ toinen.txt | 1 +
+ 2 files changed, 2 insertions(+)
+
+commit fe33fcfbd939d3508c42c29039c878b86eaf972a
+Author: Sonja Heikkinen <sonja.t.heikkinen@hotmail.com>
+Date:   Tue Mar 12 11:51:57 2019 +0200
+
+    kolmas.txt luotu
+
+ kolmas.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+commit b61af47a051330c27e88f40577ae8bf5a825d75e
+Author: Sonja Heikkinen <sonja.t.heikkinen@hotmail.com>
+Date:   Tue Mar 12 11:48:00 2019 +0200
+
+    muutos ja lisäys
+
+ tiedosto.txt | 1 +
+ toinen.txt   | 0
+ 2 files changed, 1 insertion(+)
+
+commit 219827fe36b585ef425ed3aa91c8634f3d91669d
+Author: Sonja Heikkinen <sonja.t.heikkinen@hotmail.com>
+Date:   Tue Mar 12 11:44:53 2019 +0200
+
+    tiedosto.txt
+
+ tiedosto.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
