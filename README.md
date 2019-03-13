@@ -1,4 +1,4 @@
-# Ohjelmistotekniikka, harjoitustyö
+# Ohjelmistotekniikka, kevät 2019
 ## Tehtävät
 ### Viikko 1
 
