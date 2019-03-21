@@ -16,29 +16,85 @@ import static org.junit.Assert.*;
  * @author sonja
  */
 public class MaksukorttiTest {
-    
-    public MaksukorttiTest() {
-    }
-    
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
+
+    Maksukortti kortti;
+
     @Before
     public void setUp() {
-    }
-    
-    @After
-    public void tearDown() {
+        kortti = new Maksukortti(10);
     }
 
-    // TODO add test methods here.
-    // The methods must be annotated with annotation @Test. For example:
-    //
-    // @Test
-    // public void hello() {}
+    @Test
+    public void konstruktoriAsettaaSaldonOikein() {
+        String vastaus = kortti.toString();
+        assertEquals("Kortilla on rahaa 10.0 euroa", vastaus);
+    }
+    
+    @Test
+    public void syoEdullisestiVahentaaSaldoaOikein() {
+        kortti.syoEdullisesti();
+        assertEquals("Kortilla on rahaa 7.5 euroa", kortti.toString());
+    }
+
+    @Test
+    public void syoMaukkaastiVahentaaSaldoaOikein() {
+        kortti.syoMaukkaasti();
+        assertEquals("Kortilla on rahaa 6.0 euroa", kortti.toString());
+    }
+
+    @Test
+    public void syoEdullisestiEiVieSaldoaNegatiiviseksi() {
+        kortti.syoMaukkaasti();
+        kortti.syoMaukkaasti();
+        // nyt kortin saldo on 2
+        kortti.syoEdullisesti();
+        assertEquals("Kortilla on rahaa 2.0 euroa", kortti.toString());
+    }
+
+    @Test
+    public void syoMaukkaastiEiVieSaldoaNegatiiviseksi() {
+        kortti.syoMaukkaasti();
+        kortti.syoMaukkaasti();
+        // nyt kortin saldo on 2
+        kortti.syoMaukkaasti();
+        assertEquals("Kortilla on rahaa 2.0 euroa", kortti.toString());
+    }
+
+    @Test
+    public void kortilleVoiLadataRahaa() {
+        kortti.lataaRahaa(25);
+        assertEquals("Kortilla on rahaa 35.0 euroa", kortti.toString());
+    }
+
+    @Test
+    public void kortinSaldoEiYlitaMaksimiarvoa() {
+        kortti.lataaRahaa(200);
+        assertEquals("Kortilla on rahaa 150.0 euroa", kortti.toString());
+    }
+    
+    @Test
+    public void negatiivisenSummanLataaminenEiMuutaKortinArvoa() {
+        kortti.lataaRahaa(-20);
+        assertEquals("Kortilla on rahaa 10.0 euroa", kortti.toString());
+    }
+    
+     @Test
+     public void edullisenLounaanVoiOstaaKunKortillaRahaaVainEdullisenVerran() {
+         kortti.syoEdullisesti();
+         kortti.syoEdullisesti();
+         kortti.syoEdullisesti();
+         //kortilla nyt 2,5 e
+         kortti.syoEdullisesti();
+         assertEquals("Kortilla on rahaa 0.0 euroa", kortti.toString());
+     }
+     
+     @Test
+     public void maukkaanLounaanVoiOstaaKunKortillaRahaaVainMaukkaanVerran() {
+         kortti.syoMaukkaasti();
+         kortti.syoMaukkaasti();
+         kortti.lataaRahaa(2);
+         //kortilla nyt 4 e
+         kortti.syoMaukkaasti();
+         assertEquals("Kortilla on rahaa 0.0 euroa", kortti.toString());
+     }
 }
