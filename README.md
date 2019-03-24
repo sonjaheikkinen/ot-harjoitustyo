@@ -16,7 +16,7 @@ Linkit viikon 1 tehtäviin:
 
 [komentorivi.txt](https://github.com/sonjaheikkinen/ot-harjoitustyo/blob/master/laskarit/viikko1/komentorivi.txt)
 
-### Viikko2
+### Viikko 2
 
 Linkit viikon 2 tehtäviin
 
