@@ -1,8 +1,8 @@
 # Ohjelmistotekniikka, kevät 2019
 
-##Ohjelmointiprojekti
+## Ohjelmointiprojekti
 
-[työaikakirjanpito] (https://github.com/sonjaheikkinen/ot-harjoitustyo/blob/master/dokumentointi/tyoaikakirjanpito.md)
+[työaikakirjanpito](https://github.com/sonjaheikkinen/ot-harjoitustyo/blob/master/dokumentointi/tyoaikakirjanpito.md)
 
 
 
@@ -19,8 +19,8 @@ Linkit viikon 1 tehtäviin:
 
 Linkit viikon 2 tehtäviin
 
-[maksukortti] (https://github.com/sonjaheikkinen/ot-harjoitustyo/tree/master/laskarit/viikko2/Maksukortti)
+[maksukortti](https://github.com/sonjaheikkinen/ot-harjoitustyo/tree/master/laskarit/viikko2/Maksukortti)
 
-[unicafe] (https://github.com/sonjaheikkinen/ot-harjoitustyo/tree/master/laskarit/viikko2/Unicafe)
+[unicafe](https://github.com/sonjaheikkinen/ot-harjoitustyo/tree/master/laskarit/viikko2/Unicafe)
 
-[testauskattavuus] (https://github.com/sonjaheikkinen/ot-harjoitustyo/blob/master/laskarit/viikko2/testauskattavuus.jpg)
+[testauskattavuus](https://github.com/sonjaheikkinen/ot-harjoitustyo/blob/master/laskarit/viikko2/testauskattavuus.jpg)
