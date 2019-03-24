@@ -3,6 +3,7 @@
 ## Ohjelmointiprojekti
 
 [työaikakirjanpito](https://github.com/sonjaheikkinen/ot-harjoitustyo/blob/master/dokumentointi/tyoaikakirjanpito.md)
+
 [vaatimusmäärittely](https://github.com/sonjaheikkinen/ot-harjoitustyo/blob/master/dokumentointi/vaatimusmaarittely.md)
 
 
