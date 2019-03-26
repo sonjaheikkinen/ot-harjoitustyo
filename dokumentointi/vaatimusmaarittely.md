@@ -21,6 +21,8 @@ esim. pelin introlle ja try again -tyyppinen näkymä kuollessa. Mikäli peliin 
 kirjautumistoiminnallisuus tai erilliset pelitallennukset, tarvitaan näille 
 mahdollisesti vielä yksi lisänäkymä.
 
+![kayttoliittymaluonnos.jpg](https://github.com/sonjaheikkinen/ot-harjoitustyo/blob/master/dokumentointi/kuvat/kayttoliittymaluonnos.jpg)
+
 ## Perusversion toiminnallisuus
 
 - Hahmo siirty sivusuunnassa hiirtä liikuttamalla ja hyppää osuessaan hyppyalustaan
