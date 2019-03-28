@@ -12,10 +12,10 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 
 public class SceneConstructor {
-
+    
     public Scene startScene() {
-
-        /*
+        
+        
         BorderPane layout = new BorderPane();
         VBox buttons = new VBox();
         
@@ -29,9 +29,9 @@ public class SceneConstructor {
         layout.setCenter(buttons);              
         
         Scene startScene = new Scene(layout);
-         */
+        
         return startScene;
-
+        
     }
-
+    
 }

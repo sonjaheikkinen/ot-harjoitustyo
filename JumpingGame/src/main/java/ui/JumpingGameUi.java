@@ -35,6 +35,8 @@ public class JumpingGameUi extends Application {
          */
         
         SceneHandler sceneHandler = new SceneHandler(stage);
+        sceneHandler.createScenes();
+        sceneHandler.setInitialScene();
 
         stage.show();
 
