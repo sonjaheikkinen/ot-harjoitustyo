@@ -5,7 +5,6 @@
  */
 package ui;
 
-import construction.SceneConstructor;
 import logic.SceneHandler;
 
 import javafx.application.Application;
@@ -32,12 +31,13 @@ public class JumpingGameUi extends Application {
         stopGame.setOnAction((event) -> {
             stage.setScene(startScene);
         });
-         */
+        
+        */
         
         SceneHandler sceneHandler = new SceneHandler(stage);
         sceneHandler.createScenes();
         sceneHandler.setInitialScene();
-
+         
         stage.show();
 
     }

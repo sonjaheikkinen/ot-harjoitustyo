@@ -5,6 +5,8 @@
  */
 package logic;
 
+import construction.SceneConstructor;
+
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
@@ -12,32 +14,32 @@ import javafx.stage.Stage;
 
 public class SceneHandler {
     
+    private SceneConstructor sceneConstructor;
     private Stage stage;
     private Scene startScene;
     private Scene game;
     
     public SceneHandler(Stage stage) {
         this.stage = stage;
+        this.sceneConstructor = new SceneConstructor(this);
     }
     
     public void setInitialScene() {
         stage.setScene(startScene);
     }
     
+    public void startGame() {
+        stage.setScene(game);
+    }
+    
+    public void quitGame() {
+        //this method will change later to do something else that this.setInitialScene()
+        stage.setScene(startScene);
+    }
+    
     public void createScenes() {
-        Button startGame = new Button("Start game");
-        Button stopGame = new Button("Stop game");
-
-        startScene = new Scene(startGame);
-        game = new Scene(stopGame);
-
-        startGame.setOnAction((event) -> {
-            stage.setScene(game);
-        });
-
-        stopGame.setOnAction((event) -> {
-            stage.setScene(startScene);
-        });
+        startScene = this.sceneConstructor.startScene();
+        game = this.sceneConstructor.game();
     }
     
     
