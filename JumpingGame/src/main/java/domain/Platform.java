@@ -13,13 +13,10 @@ import javafx.scene.shape.Polygon;
  */
 public class Platform extends GameObject {
     
-    public Platform (int x, int y) {
-        super(new Polygon(0, 0, 100, 0, 100, 5, 0, 5), x, y);
+    public Platform (int x, int y, int width) {
+        super(new Polygon(0, 0, width, 0, width, 5, 0, 5), x, y);
         super.changeMovement(0, 1);
     }
-    
-    public void fall() {
-        super.moveVertical(super.getObject().getTranslateY() + super.getMovement().getY());
-    }
+   
     
 }

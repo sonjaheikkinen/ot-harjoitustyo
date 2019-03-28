@@ -7,6 +7,7 @@ package domain;
 
 import javafx.geometry.Point2D;
 import javafx.scene.shape.Polygon;
+import javafx.scene.shape.Shape;
 
 /**
  *
@@ -43,18 +44,15 @@ public class GameObject {
     public void changeMovement(double x, double y) {
         this.movement = this.movement.add(x, y);
     }
-
-    /*
-    public void jump() {
-        double yPosition = this.character.getTranslateY();
-        if (yPosition <= 300) {
-            this.movement = this.movement.add(0, 2);
-        }
-        if (yPosition >= 400) {
-            this.movement = this.movement.add(0, -2);
-        }
-        this.character.setTranslateY(this.character.getTranslateY() + this.movement.getY());
+    
+    public void fall() {
+        moveVertical(this.object.getTranslateY() + this.movement.getY());
     }
-    */
+    
+    public boolean collission(GameObject other) {
+        Shape collissionArea = Shape.intersect(this.object, other.object);
+        return collissionArea.getBoundsInLocal().getWidth() != -1;
+    }
+
 
 }

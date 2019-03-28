@@ -8,7 +8,6 @@ package construction;
 import logic.SceneHandler;
 import domain.*;
 
-
 import javafx.animation.AnimationTimer;
 import javafx.geometry.Point2D;
 import javafx.scene.Scene;
@@ -23,6 +22,7 @@ public class SceneConstructor {
     private SceneHandler sceneHandler;
     private int width;
     private int height;
+    private boolean gameOn;
 
     public SceneConstructor(SceneHandler sceneHandler) {
         this.sceneHandler = sceneHandler;
@@ -31,6 +31,8 @@ public class SceneConstructor {
     }
 
     public Scene startScene() {
+
+        this.gameOn = false;
 
         BorderPane layout = new BorderPane();
         layout.setPrefSize(this.width, this.height);
@@ -57,16 +59,19 @@ public class SceneConstructor {
 
     public Scene game() {
 
+        this.gameOn = true;
+
         //Create game screen
         BorderPane gameScreen = new BorderPane();
         gameScreen.setPrefSize(this.width, this.height);
 
         //Create objects on the screen
-        GameCharacter character = new GameCharacter(250, 400);
-        Platform platform = new Platform(240, 0);
+        GameCharacter character = new GameCharacter(250, 300);
+        Platform platform = new Platform(240, 0, 100);
+        Platform ground = new Platform(0, 400, 500);
 
         //Add objects to screen
-        gameScreen.getChildren().addAll(character.getObject(), platform.getObject());
+        gameScreen.getChildren().addAll(character.getObject(), platform.getObject(), ground.getObject());
 
         //Create buttons
         Button quitGame = new Button("Quit Game");
@@ -78,6 +83,7 @@ public class SceneConstructor {
         //Create and manipulate scene
         Scene game = new Scene(gameScreen);
 
+
         game.setOnMouseMoved((event) -> {
             character.moveSideways(event.getSceneX());
         });
@@ -86,8 +92,10 @@ public class SceneConstructor {
 
             @Override
             public void handle(long nykyhetki) {
-                character.jump();
                 platform.fall();
+                if (!character.collission(ground)) {
+                    character.fall();
+                }
             }
         }.start();
 
