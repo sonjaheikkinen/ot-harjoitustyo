@@ -71,6 +71,10 @@ public class SceneConstructor {
 
         Scene game = new Scene(gameScreen);
         
+        game.setOnMouseClicked((event) -> {
+            character.setTranslateY(character.getTranslateY() - 10);
+        });
+        
         return game;
         
     }
