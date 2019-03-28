@@ -5,6 +5,7 @@
  */
 package construction;
 
+import javafx.animation.AnimationTimer;
 import logic.SceneHandler;
 
 import javafx.scene.Scene;
@@ -71,9 +72,11 @@ public class SceneConstructor {
 
         Scene game = new Scene(gameScreen);
         
-        game.setOnMouseClicked((event) -> {
-            character.setTranslateY(character.getTranslateY() - 10);
+        game.setOnMouseMoved((event) -> {
+            double x = event.getSceneX();
+            character.setTranslateX(x);
         });
+        
         
         return game;
         
