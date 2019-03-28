@@ -5,10 +5,11 @@
  */
 package construction;
 
+import logic.SceneHandler;
+import domain.GameCharacter;
+
 import javafx.animation.AnimationTimer;
 import javafx.geometry.Point2D;
-import logic.SceneHandler;
-
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -58,11 +59,9 @@ public class SceneConstructor {
         BorderPane gameScreen = new BorderPane();
         gameScreen.setPrefSize(this.width, this.height);
 
-        Polygon character = new Polygon(20, 0, 40, 40, 0, 40);
-        character.setTranslateX(250);
-        character.setTranslateY(400);
+        GameCharacter character = new GameCharacter(250, 400);
 
-        gameScreen.getChildren().add(character);
+        gameScreen.getChildren().add(character.getCharacter());
 
         Button quitGame = new Button("Quit Game");
         quitGame.setOnAction((event) -> {
@@ -74,8 +73,7 @@ public class SceneConstructor {
         Scene game = new Scene(gameScreen);
 
         game.setOnMouseMoved((event) -> {
-            double x = event.getSceneX();
-            character.setTranslateX(x);
+            character.moveSideways(event.getSceneX());
         });
 
         Point2D movement = new Point2D(0, -1);
@@ -84,7 +82,7 @@ public class SceneConstructor {
 
             @Override
             public void handle(long nykyhetki) {
-                character.setTranslateY(character.getTranslateY() + movement.getY());
+                character.moveUpwards();
             }
         }.start();
 
