@@ -6,7 +6,8 @@
 package construction;
 
 import logic.SceneHandler;
-import domain.GameCharacter;
+import domain.*;
+
 
 import javafx.animation.AnimationTimer;
 import javafx.geometry.Point2D;
@@ -56,20 +57,25 @@ public class SceneConstructor {
 
     public Scene game() {
 
+        //Create game screen
         BorderPane gameScreen = new BorderPane();
         gameScreen.setPrefSize(this.width, this.height);
 
+        //Create objects on the screen
         GameCharacter character = new GameCharacter(250, 400);
+        Platform platform = new Platform(240, 0);
 
-        gameScreen.getChildren().add(character.getObject());
+        //Add objects to screen
+        gameScreen.getChildren().addAll(character.getObject(), platform.getObject());
 
+        //Create buttons
         Button quitGame = new Button("Quit Game");
         quitGame.setOnAction((event) -> {
             this.sceneHandler.quitGame();
         });
-
         gameScreen.setBottom(quitGame);
 
+        //Create and manipulate scene
         Scene game = new Scene(gameScreen);
 
         game.setOnMouseMoved((event) -> {
@@ -81,6 +87,7 @@ public class SceneConstructor {
             @Override
             public void handle(long nykyhetki) {
                 character.jump();
+                platform.fall();
             }
         }.start();
 
