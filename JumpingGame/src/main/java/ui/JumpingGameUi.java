@@ -5,14 +5,37 @@
  */
 package ui;
 
-/**
- *
- * @author sonja
- */
-public class JumpingGameUi {
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.stage.*;
+
+public class JumpingGameUi extends Application{
+    
+    @Override
+    public void start(Stage stage) {
+        
+        Button startGame = new Button("Start game");
+        Button stopGame = new Button("Stop game");
+        
+        Scene startScene = new Scene(startGame);
+        Scene game = new Scene(stopGame);
+        
+        startGame.setOnAction((event) -> {
+            stage.setScene(game);
+        });
+        
+        stopGame.setOnAction((event) -> {
+           stage.setScene(startScene); 
+        });
+        
+        stage.setScene(startScene);
+        stage.show();
+        
+    }
     
     public static void main(String args[]) {
-        
+        launch(JumpingGameUi.class);
     }
     
 }
