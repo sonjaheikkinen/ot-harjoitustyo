@@ -61,7 +61,7 @@ public class SceneConstructor {
 
         GameCharacter character = new GameCharacter(250, 400);
 
-        gameScreen.getChildren().add(character.getCharacter());
+        gameScreen.getChildren().add(character.getObject());
 
         Button quitGame = new Button("Quit Game");
         quitGame.setOnAction((event) -> {
@@ -75,8 +75,6 @@ public class SceneConstructor {
         game.setOnMouseMoved((event) -> {
             character.moveSideways(event.getSceneX());
         });
-
-        Point2D movement = new Point2D(0, -1);
 
         new AnimationTimer() {
 
