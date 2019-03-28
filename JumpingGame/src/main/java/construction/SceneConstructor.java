@@ -82,7 +82,7 @@ public class SceneConstructor {
 
             @Override
             public void handle(long nykyhetki) {
-                character.moveUpwards();
+                character.jump();
             }
         }.start();
 

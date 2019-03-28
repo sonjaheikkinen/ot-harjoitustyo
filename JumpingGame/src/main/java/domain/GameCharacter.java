@@ -32,8 +32,16 @@ public class GameCharacter {
         this.character.setTranslateX(x);
     }
     
-    public void moveUpwards() {
+    public void jump() {
+        double yPosition = this.character.getTranslateY();
+        if (yPosition <= 300) {
+            this.movement = this.movement.add(0, 2);
+        }
+        if (yPosition >= 400) {
+            this.movement = this.movement.add(0, -2);
+        }
         this.character.setTranslateY(this.character.getTranslateY() + this.movement.getY());
     }
+    
     
 }
