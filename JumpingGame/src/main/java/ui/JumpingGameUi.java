@@ -6,6 +6,10 @@
 package ui;
 
 import domain.GameCharacter;
+import domain.PracticeGameCharacter;
+import domain.Sprite;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Random;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
@@ -17,6 +21,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+import other.LongValue;
 
 public class JumpingGameUi extends Application {
 
@@ -34,9 +39,21 @@ public class JumpingGameUi extends Application {
 
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
-        GameCharacter character = new GameCharacter();
+        //GameCharacter character = new PracticeGameCharacter();
+        ArrayList<Double> mouseMovementInput = new ArrayList<>();
+
+        GameCharacter gameCharacter = new GameCharacter();
+        gameCharacter.setPositionX(180);
+        gameCharacter.setPositionY(400);
+        gameCharacter.setWidth(40);
+        gameCharacter.setHeight(40);
 
         game.setOnMouseMoved((event) -> {
+
+            double mouseX = event.getSceneX();
+            gameCharacter.setPositionX(mouseX);
+
+            /*
             double mouseX = event.getSceneX();
             double characterX;
             if (mouseX < 0) {
@@ -47,20 +64,70 @@ public class JumpingGameUi extends Application {
                 characterX = mouseX;
             }
             character.setX(characterX);
-        });
-        
-        game.setOnMouseClicked((event) -> {
-            character.setMovement(0, -5);
-            character.setJump(true);
+             */
         });
 
-        final long startNanoTime = System.nanoTime();
+        game.setOnMouseClicked((event) -> {
+            /*
+            character.setMovement(0, -5);
+            character.setJump(true);
+             */
+        });
+
+        ArrayList<Sprite> platforms = new ArrayList<>();
+
+        for (int i = 0; i < 7; i++) {
+            Sprite platform = new Sprite();
+            platform.setPositionX(3 * i * 10);
+            platform.setPositionY(7 * i * 10);
+            platform.setWidth(100);
+            platform.setHeight(10);
+            platforms.add(platform);
+        }
+
+        LongValue lastNanoTime = new LongValue(System.nanoTime());
 
         new AnimationTimer() {
 
             @Override
             public void handle(long currentNanoTime) {
 
+                // calculate time since last update.
+                double elapsedTime = (currentNanoTime - lastNanoTime.getValue()) / 1000000000.0;
+                lastNanoTime.setValue(currentNanoTime);
+
+                // game logic
+                if (gameCharacter.getJump()) {
+                    gameCharacter.changeVelocity(0, 1);
+                    if (gameCharacter.getVelocityY() >= 0) {
+                        gameCharacter.setJump(false);
+                        gameCharacter.setVelocity(0, 100);
+                    }
+                } else {
+                    gameCharacter.setVelocity(0, 100);
+                }
+
+                gameCharacter.update(elapsedTime);
+
+                // collision detection
+                Iterator<Sprite> platformIterator = platforms.iterator();
+                while (platformIterator.hasNext()) {
+                    Sprite platform = platformIterator.next();
+                    if (gameCharacter.intersects(platform)) {
+                        gameCharacter.setVelocity(0, -100);
+                        gameCharacter.setJump(true);
+                    }
+                }
+
+                // render
+                gc.clearRect(0, 0, 400, 500);
+                gameCharacter.render(gc);
+
+                for (Sprite platform : platforms) {
+                    platform.render(gc);
+                }
+
+                /*
                 double t = (currentNanoTime - startNanoTime) / 1000000000.0;
                 //System.out.println(t);
                 System.out.println(character.getY());
@@ -81,7 +148,7 @@ public class JumpingGameUi extends Application {
                 
                 gc.clearRect(0, 0, 400, 600);
                 gc.fillRect(characterX, characterY, 40, 40);
-
+                 */
             }
 
         }.start();

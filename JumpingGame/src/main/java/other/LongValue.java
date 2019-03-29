@@ -3,22 +3,25 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package domain;
+package other;
 
 /**
  *
  * @author sonja
  */
-public class GameCharacter extends Sprite{
+public class LongValue {
     
-    private boolean jump;
+    long value;
     
-    public void setJump(boolean value) {
-        this.jump = value;
+    public LongValue(long value) {
+        this.value = value;
     }
     
-    public boolean getJump() {
-        return this.jump;
+    public long getValue() {
+        return this.value;
     }
     
+    public void setValue(long value) {
+        this.value = value;
+    }
 }
