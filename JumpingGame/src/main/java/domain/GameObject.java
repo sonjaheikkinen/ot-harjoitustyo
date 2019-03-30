@@ -12,7 +12,7 @@ import javafx.scene.canvas.GraphicsContext;
  *
  * @author sonja
  */
-public class Sprite {
+public class GameObject {
     
     private double positionX;
     private double positionY;    
@@ -20,6 +20,15 @@ public class Sprite {
     private double velocityY;
     private double width;
     private double height;
+    
+    public GameObject(double x, double y, double width, double heigth, double velocityX, double velocityY) {
+        this.positionX = x;
+        this.positionY = y;
+        this.velocityX = velocityX;
+        this.velocityY = velocityY;
+        this.width = width;
+        this.height = heigth;
+    }
  
     public void update(double time) {
         positionX += velocityX * time;
@@ -34,7 +43,7 @@ public class Sprite {
         return new Rectangle2D(positionX,positionY,width,height);
     }
  
-    public boolean intersects(Sprite s) {
+    public boolean intersects(GameObject s) {
         return s.getBoundary().intersects( this.getBoundary() );
     }
     

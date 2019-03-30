@@ -6,7 +6,7 @@
 package logic;
 
 import domain.GameCharacter;
-import domain.Sprite;
+import domain.GameObject;
 import java.util.ArrayList;
 import java.util.Iterator;
 import javafx.animation.AnimationTimer;
@@ -32,30 +32,22 @@ public class GameScreenHandler {
     public void updateGame() {
         GraphicsContext gc = canvas.getGraphicsContext2D();
         GameCharacter gameCharacter = createGameCharacter();
-        ArrayList<Sprite> platforms = createPlatforms();
+        ArrayList<GameObject> platforms = createPlatforms();
         handleMouseMovement(game, gameCharacter);
         handleAnimation(gc, gameCharacter, platforms);
     }
 
     public static GameCharacter createGameCharacter() {
-        GameCharacter gameCharacter = new GameCharacter();
-        gameCharacter.setPositionX(180);
-        gameCharacter.setPositionY(400);
-        gameCharacter.setWidth(40);
-        gameCharacter.setHeight(40);
+        GameCharacter gameCharacter = new GameCharacter(400, 0, 40, 40, 0, 50);
         return gameCharacter;
     }
 
-    public static ArrayList<Sprite> createPlatforms() {
+    public static ArrayList<GameObject> createPlatforms() {
 
-        ArrayList<Sprite> platforms = new ArrayList<>();
+        ArrayList<GameObject> platforms = new ArrayList<>();
 
         for (int i = 0; i < 7; i++) {
-            Sprite platform = new Sprite();
-            platform.setPositionX(3 * i * 10);
-            platform.setPositionY(7 * i * 10);
-            platform.setWidth(100);
-            platform.setHeight(10);
+            GameObject platform = new GameObject((3*i*10), (7*i*10), 100, 10, 0 , 0);
             platforms.add(platform);
         }
 
@@ -73,7 +65,7 @@ public class GameScreenHandler {
         });
     }
 
-    public static void handleAnimation(GraphicsContext gc, GameCharacter gameCharacter, ArrayList<Sprite> platforms) {
+    public static void handleAnimation(GraphicsContext gc, GameCharacter gameCharacter, ArrayList<GameObject> platforms) {
         LongValue lastNanoTime = new LongValue(System.nanoTime());
         new AnimationTimer() {
             @Override
@@ -106,10 +98,10 @@ public class GameScreenHandler {
         gameCharacter.update(elapsedTime);
     }
 
-    public static void detectCollission(GameCharacter gameCharacter, ArrayList<Sprite> platforms) {
-        Iterator<Sprite> platformIterator = platforms.iterator();
+    public static void detectCollission(GameCharacter gameCharacter, ArrayList<GameObject> platforms) {
+        Iterator<GameObject> platformIterator = platforms.iterator();
         while (platformIterator.hasNext()) {
-            Sprite platform = platformIterator.next();
+            GameObject platform = platformIterator.next();
             if (gameCharacter.intersects(platform)) {
                 gameCharacter.setVelocity(0, -100);
                 gameCharacter.setJump(true);
@@ -117,11 +109,11 @@ public class GameScreenHandler {
         }
     }
 
-    public static void render(GraphicsContext gc, GameCharacter gameCharacter, ArrayList<Sprite> platforms) {
+    public static void render(GraphicsContext gc, GameCharacter gameCharacter, ArrayList<GameObject> platforms) {
         gc.clearRect(0, 0, 400, 500);
         gameCharacter.render(gc);
 
-        for (Sprite platform : platforms) {
+        for (GameObject platform : platforms) {
             platform.render(gc);
         }
     }

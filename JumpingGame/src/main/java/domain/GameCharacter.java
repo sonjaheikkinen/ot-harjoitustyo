@@ -9,9 +9,13 @@ package domain;
  *
  * @author sonja
  */
-public class GameCharacter extends Sprite{
+public class GameCharacter extends GameObject{
     
     private boolean jump;
+    
+    public GameCharacter(double x, double y, double width, double height, double velocityX, double velocityY) {
+        super(x, y, width, height, velocityX, velocityY);
+    }
     
     public void setJump(boolean value) {
         this.jump = value;
