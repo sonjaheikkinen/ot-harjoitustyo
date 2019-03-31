@@ -55,6 +55,14 @@ public class GameObject {
         positionY = y;
     }
     
+    public double getPositionX() {
+        return this.positionX;
+    }
+    
+    public double getPositionY() {
+        return this.positionY;
+    }
+    
     public void setWidth(double width) {
         this.width = width;
     }
