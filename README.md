@@ -1,27 +1,40 @@
 # Ohjelmistotekniikka, kevät 2019
 
-## Ohjelmointiprojekti
-
-[työaikakirjanpito](https://github.com/sonjaheikkinen/ot-harjoitustyo/blob/master/dokumentointi/tyoaikakirjanpito.md)
+## Dokumentaatio
 
 [vaatimusmäärittely](https://github.com/sonjaheikkinen/ot-harjoitustyo/blob/master/dokumentointi/vaatimusmaarittely.md)
 
+[työaikakirjanpito](https://github.com/sonjaheikkinen/ot-harjoitustyo/blob/master/dokumentointi/tyoaikakirjanpito.md)
 
-## Tehtävät
-### Viikko 1
+## Komentorivitoiminnot
 
-Linkit viikon 1 tehtäviin:
+### Testaus
 
-[gitlog.txt](https://github.com/sonjaheikkinen/ot-harjoitustyo/blob/master/laskarit/viikko1/gitlog.txt)
+Testit suoritetaan komennolla
 
-[komentorivi.txt](https://github.com/sonjaheikkinen/ot-harjoitustyo/blob/master/laskarit/viikko1/komentorivi.txt)
+```
+mvn test
+```
 
-### Viikko 2
+Testikattavuusraportti luodaan komennolla
 
-Linkit viikon 2 tehtäviin
+```
+mvn jacoco:report
+```
 
-[maksukortti](https://github.com/sonjaheikkinen/ot-harjoitustyo/tree/master/laskarit/viikko2/Maksukortti)
+### Suoritus
 
-[unicafe](https://github.com/sonjaheikkinen/ot-harjoitustyo/tree/master/laskarit/viikko2/Unicafe)
+Ohjelma suoritetaan komentoriviltä komennolla
 
-[testauskattavuus](https://github.com/sonjaheikkinen/ot-harjoitustyo/blob/master/laskarit/viikko2/testauskattavuus.jpg)
+```
+mvn compile exec:java -Dexec.mainClass=ui.JumpingGameUi
+```
+
+Windows PowerShellillä tarvitaan lisäksi lainausmerkit
+
+```
+mvn compile exec:java -"Dexec.mainClass=ui.JumpingGameUi"
+```
+
+
+
