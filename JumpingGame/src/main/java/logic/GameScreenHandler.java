@@ -38,13 +38,16 @@ public class GameScreenHandler {
     }
 
     public static GameCharacter createGameCharacter() {
-        GameCharacter gameCharacter = new GameCharacter(400, 0, 40, 40, 0, 50);
+        GameCharacter gameCharacter = new GameCharacter(400, 0, 40, 40, 0, 0);
         return gameCharacter;
     }
 
     public static ArrayList<GameObject> createPlatforms() {
 
         ArrayList<GameObject> platforms = new ArrayList<>();
+        
+        GameObject groundPlatform = new GameObject(0, 490, 400, 10, 0, 0);
+        platforms.add(groundPlatform);
 
         for (int i = 0; i < 7; i++) {
             GameObject platform = new GameObject((3*i*10), (7*i*10), 100, 10, 0 , 0);
@@ -86,13 +89,13 @@ public class GameScreenHandler {
 
     public static void moveCharacter(double elapsedTime, GameCharacter gameCharacter) {
         if (gameCharacter.getJump()) {
-            gameCharacter.changeVelocity(0, 1);
-            if (gameCharacter.getVelocityY() >= 0) {
+            gameCharacter.changeVelocity(0, 20);
+            if (gameCharacter.getVelocityY() >= 500) {
                 gameCharacter.setJump(false);
-                gameCharacter.setVelocity(0, 100);
+                gameCharacter.setVelocity(0, 500);
             }
         } else {
-            gameCharacter.setVelocity(0, 100);
+            gameCharacter.setVelocity(0, 500);
         }
 
         gameCharacter.update(elapsedTime);
@@ -103,7 +106,7 @@ public class GameScreenHandler {
         while (platformIterator.hasNext()) {
             GameObject platform = platformIterator.next();
             if (gameCharacter.intersects(platform)) {
-                gameCharacter.setVelocity(0, -100);
+                gameCharacter.setVelocity(0, -500);
                 gameCharacter.setJump(true);
             }
         }
