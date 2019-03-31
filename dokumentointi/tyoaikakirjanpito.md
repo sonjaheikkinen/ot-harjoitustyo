@@ -7,4 +7,5 @@
 |28.3.  | 7,5      | käyttöliittymän aloitus ja pelimekaniikkojen kanssa sähläystä |
 |29.3.  | 4        | projekti aloitettu alusta, hyppely toimii (jotenkin) |
 |30.3.  | 3        | projektin refraktorointi ja ensimmäinen testi |
-|yht.   | 15       |
+|31.3.  | 1        | hyppy"animaation" parantelu ja lisää testejä |
+|yht.   | 19       |
