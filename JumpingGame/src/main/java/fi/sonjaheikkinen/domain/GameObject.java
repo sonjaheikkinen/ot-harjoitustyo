@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package domain;
+package fi.sonjaheikkinen.domain;
 
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
@@ -35,16 +35,12 @@ public class GameObject {
         positionY += velocityY * time;
     }
  
-    public void render(GraphicsContext gc) {
-        gc.fillRect(positionX, positionY, width, height);
-    }
- 
     public Rectangle2D getBoundary() {
-        return new Rectangle2D(positionX,positionY,width,height);
+        return new Rectangle2D(positionX, positionY, width, height);
     }
  
     public boolean intersects(GameObject s) {
-        return s.getBoundary().intersects( this.getBoundary() );
+        return s.getBoundary().intersects(this.getBoundary());
     }
     
     public void setPositionX(double x) {
@@ -69,6 +65,14 @@ public class GameObject {
     
     public void setHeight(double height) {
         this.height = height;
+    }
+    
+    public double getWidth() {
+        return this.width;
+    }
+    
+    public double getHeigth() {
+        return this.height;
     }
     
     public void setVelocity(double x, double y) {

@@ -8,4 +8,6 @@
 |29.3.  | 4        | projekti aloitettu alusta, hyppely toimii (jotenkin) |
 |30.3.  | 3        | projektin refraktorointi ja ensimmäinen testi |
 |31.3.  | 1        | hyppy"animaation" parantelu ja lisää testejä |
-|yht.   | 19       |
+|4.4.   | 5        | refraktorointi, hyppyalustat liikkuu |
+|5.4.   | 2,5      | testejä lisää, checkstyle käyttöön |
+|yht.   | 26,4     |

@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+package fi.sonjaheikkinen.domainTest;
 
-import domain.GameCharacter;
+import fi.sonjaheikkinen.domain.GameCharacter;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -38,9 +39,8 @@ public class GameCharacterTest {
     }
 
     @Test
-    public void characterInitialJumpValueFalse() {
+    public void characterInitialJumpStateFalse() {
         GameCharacter character = new GameCharacter(0, 0, 0, 0, 0, 0);
-        assertTrue(character.getJump() == false);
+        assertFalse(character.getJump());
     }
-
 }
