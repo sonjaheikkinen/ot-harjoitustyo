@@ -66,12 +66,12 @@ public class GameLogicTest {
     
     @Test
     public void characterInitialWidthSetCorrectly() {
-        assertTrue(this.character.getWidth() == 40);
+        assertTrue(this.character.getWidth() == 15);
     }
     
     @Test
     public void characterInitialHeigthSetCorrectly() {
-        assertTrue(this.character.getHeigth() == 40);
+        assertTrue(this.character.getHeigth() == 15);
     }
     
     @Test
@@ -144,6 +144,14 @@ public class GameLogicTest {
         this.testPlatform.get(0).setPositionY(39);
         this.gameLogic.detectCollission(testCharacter, testPlatform);
         assertTrue(this.testCharacter.getVelocityY() == -500);
+    }
+    
+    @Test
+    public void detectCollissionDoesNotMakeCharacterJumpIfCharacterAlreadyGoingUp() {
+        this.testPlatform.get(0).setPositionY(39);
+        this.testCharacter.setVelocity(0, -10);
+        this.gameLogic.detectCollission(testCharacter, testPlatform);
+        assertTrue(testCharacter.getVelocityY() == -10);
     }
     
 }

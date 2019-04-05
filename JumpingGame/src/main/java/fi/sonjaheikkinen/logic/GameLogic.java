@@ -18,7 +18,7 @@ import java.util.Random;
 public class GameLogic {
 
     public GameCharacter createGameCharacter() {
-        GameCharacter gameCharacter = new GameCharacter(360, 0, 40, 40, 0, 0);
+        GameCharacter gameCharacter = new GameCharacter(360, 0, 15, 15, 0, 0);
         return gameCharacter;
     }
 
@@ -26,11 +26,15 @@ public class GameLogic {
 
         ArrayList<GameObject> platforms = new ArrayList<>();
 
-        GameObject groundPlatform = new GameObject(0, 400, 400, 10, 0, 0);
+        GameObject groundPlatform = new GameObject(0, 200, 400, 2, 0, 0);
         platforms.add(groundPlatform);
 
         for (int i = 0; i < 4; i++) {
-            GameObject platform = new GameObject((3 * i * 10), (i * 100), 100, 10, 0, 0);
+            int platformY = i*100;
+            if (platformY >= 200) {
+                platformY = i*100 + 100;
+            }
+            GameObject platform = new GameObject((3 * i * 10), platformY, 70, 2, 0, 0);
             platforms.add(platform);
         }
 
@@ -57,7 +61,7 @@ public class GameLogic {
         for (GameObject platform : platforms) {
             platform.setVelocity(0, 100);
             if (platform.getPositionY() >= 500) {
-                platform.setWidth(100);
+                platform.setWidth(70);
                 platform.setPositionY(-10);
                 platform.setPositionX(random.nextInt(300));
             }
@@ -69,7 +73,7 @@ public class GameLogic {
         Iterator<GameObject> platformIterator = platforms.iterator();
         while (platformIterator.hasNext()) {
             GameObject platform = platformIterator.next();
-            if (gameCharacter.intersects(platform)) {
+            if (gameCharacter.intersects(platform) && gameCharacter.getVelocityY() >= 0) {
                 gameCharacter.setVelocity(0, -500);
                 gameCharacter.setJump(true);
             }
