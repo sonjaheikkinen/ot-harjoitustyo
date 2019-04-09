@@ -30,9 +30,9 @@ public class GameLogic {
         platforms.add(groundPlatform);
 
         for (int i = 0; i < 4; i++) {
-            int platformY = i*100;
+            int platformY = i * 100;
             if (platformY >= 200) {
-                platformY = i*100 + 100;
+                platformY = i * 100 + 100;
             }
             GameObject platform = new GameObject((3 * i * 10), platformY, 70, 2, 0, 0);
             platforms.add(platform);
