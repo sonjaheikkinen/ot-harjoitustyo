@@ -9,6 +9,6 @@
 |30.3.  | 3        | projektin refraktorointi ja ensimmäinen testi |
 |31.3.  | 1        | hyppy"animaation" parantelu ja lisää testejä |
 |4.4.   | 5        | refraktorointi, hyppyalustat liikkuu |
-|5.4.   | 3        | testejä lisää, checkstyle käyttöön, pakkauskaavio |
+|5.4.   | 3        | testejä lisää, checkstyle käyttöön, pakkauskaavio, käyttöliittymä |
 |9.4.   | 1        | pieniä korjauksia ohjelmaan, dokumentaation päivitys |
 |yht.   | 28       | 
