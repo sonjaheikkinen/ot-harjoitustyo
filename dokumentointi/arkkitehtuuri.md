@@ -1,0 +1,1 @@
+![alustavaPakkauskaavio.jpg](https://github.com/sonjaheikkinen/ot-harjoitustyo/blob/master/dokumentointi/kuvat/alustavaPakkauskaavio.jpg)
