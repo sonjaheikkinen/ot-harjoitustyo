@@ -126,8 +126,9 @@ public class SceneConstructor {
         layout.setTop(new Label("How To Play"));
         
         Text instruction = new Text();
-        instruction.setText("Use your mouse to move your character and jump upward. \n "
-                + "If you fall from the platforms, you die.");
+        instruction.setText("Move sideways by moving your mouse. \n "
+                + "Character jumps automatically on platform. \n "
+                + "Do not fall off screen. ");
         
         Button back = new Button("Back");
         back.setOnAction((event) -> {
