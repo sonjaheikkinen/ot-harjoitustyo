@@ -10,4 +10,5 @@
 |31.3.  | 1        | hyppy"animaation" parantelu ja lisää testejä |
 |4.4.   | 5        | refraktorointi, hyppyalustat liikkuu |
 |5.4.   | 3        | testejä lisää, checkstyle käyttöön, pakkauskaavio |
-|yht.   | 27       | 
+|9.4.   | 1        | pieniä korjauksia ohjelmaan, dokumentaation päivitys |
+|yht.   | 28       | 
