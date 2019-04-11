@@ -5,12 +5,14 @@
  */
 package fi.sonjaheikkinen.gui;
 
+import fi.sonjaheikkinen.logic.ProgramLogic;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -21,126 +23,159 @@ import javafx.scene.text.Text;
  * @author sonja
  */
 public class SceneConstructor {
-    
+
     private Scene startScene;
+    private Scene newGame;
     private Scene game;
     private Scene gameOver;
     private Scene instructionScene;
     private StageHandler handler;
-    
-    public SceneConstructor(StageHandler handler) {
+    private ProgramLogic pLogic;
+
+    public SceneConstructor(StageHandler handler, ProgramLogic pLogic) {
         this.handler = handler;
+        this.pLogic = pLogic;
     }
-    
-    public Scene getStartScene() {
-        return this.startScene;
-    }
-    
-    public Scene getGameScene() {
-        return this.game;
-    }
-    
-    public Scene getGameOverScene() {
-        return this.gameOver;
-    }
-    
+
     public void createScenes() {
         createStartScene();
-        createGameOverScene();
         createInstructionScene();
     }
-    
+
     public void createStartScene() {
-        
+
         BorderPane layout = new BorderPane();
         VBox buttons = new VBox();
         buttons.setAlignment(Pos.CENTER);
-        
+
         layout.setTop(new Label("Jumping Game"));
         layout.setCenter(buttons);
-        
-        Button newGame = new Button("New Game");
+
+        Button startGame = new Button("New Game");
         Button howToPlay = new Button("How To Play");
         Button highScore = new Button("High Score");
-        
-        newGame.setOnAction((event) -> {
-            createGameScene();
-            handler.setScene(this.game);
+
+        startGame.setOnAction((event) -> {
+            createNewGameScene();
+            this.handler.setScene(this.newGame);
         });
         howToPlay.setOnAction((event) -> {
-            handler.setScene(this.instructionScene);
+            this.handler.setScene(this.instructionScene);
+        });
+
+        buttons.getChildren().addAll(startGame, howToPlay, highScore);
+
+        Scene start = new Scene(layout);
+        this.startScene = start;
+
+    }
+
+    public void createNewGameScene() {
+
+        BorderPane layout = new BorderPane();
+
+        layout.setTop(new Label("New Game"));
+
+        VBox things = new VBox();
+
+        HBox nameField = new HBox();
+        Label name = new Label("Name: ");
+        TextField playerName = new TextField();
+        Button startGame = new Button("Start Game");
+
+        startGame.setOnAction((event) -> {
+            createGameScene();
+            this.pLogic.setCurrentPlayer(playerName.getText());
+            this.pLogic.setPoints(0);
+            this.handler.setScene(this.game);
+        });
+
+        nameField.getChildren().addAll(name, playerName);
+        things.getChildren().addAll(nameField, startGame);
+        nameField.setAlignment(Pos.CENTER);
+        things.setAlignment(Pos.CENTER);
+
+        Button back = new Button("Back");
+
+        back.setOnAction((event) -> {
+            this.handler.setScene(this.startScene);
         });
         
-        buttons.getChildren().addAll(newGame, howToPlay, highScore);
-        
-        Scene start = new Scene(layout);        
-        this.startScene = start;
-        
+        layout.setCenter(things);
+        layout.setBottom(back);
+
+        Scene newGameScene = new Scene(layout);
+        this.newGame = newGameScene;
+
     }
-    
+
     public void createGameScene() {
-        
-        BorderPane layout  = new BorderPane();
+
+        BorderPane layout = new BorderPane();
         Scene gameScene = new Scene(layout);
-        
+
         Canvas canvas = new Canvas(400, 500);
-        layout.getChildren().add(canvas); 
-        
+        layout.getChildren().add(canvas);
+
         VBox pointCalculator = new VBox();
         pointCalculator.setAlignment(Pos.TOP_RIGHT);
         Label pointText = new Label("Points: ");
         Label pointAmount = new Label("0");
         pointCalculator.getChildren().addAll(pointText, pointAmount);
-        
+
         layout.setRight(pointCalculator);
-               
-        GameScreenHandler gch = new GameScreenHandler(canvas, gameScene, pointAmount, this.handler);
-        
+
+        GameScreenHandler gch = new GameScreenHandler(canvas, gameScene, pointAmount, this.handler, this.pLogic);
+
         gch.updateGame();
-        
+
         this.game = gameScene;
-        
+
     }
-    
+
     public void createGameOverScene() {
-        
+
         BorderPane layout = new BorderPane();
-        
+
         layout.setTop(new Label("Game Over"));
+
+        VBox buttonsEtc = new VBox();
+        buttonsEtc.setAlignment(Pos.CENTER);
         
-        VBox buttons = new VBox();
-        buttons.setAlignment(Pos.CENTER);
-        
-        Button tryAgain = new Button("Try Again"); 
+        Label player = new Label("Player: " + this.pLogic.getCurrentPlayer());
+        Label points = new Label("Points: " + this.pLogic.getPoints());
+
+        Button tryAgain = new Button("Try Again");
         tryAgain.setOnAction((event) -> {
             createGameScene();
+            this.pLogic.setPoints(0);
             this.handler.setScene(this.game);
         });
-        
+
         Button quit = new Button("Quit");
         quit.setOnAction((event) -> {
             this.handler.setScene(this.startScene);
         });
-        
-        buttons.getChildren().addAll(tryAgain, quit);
-        layout.setCenter(buttons);
-        
+
+        buttonsEtc.getChildren().addAll(player, points, tryAgain, quit);
+        layout.setCenter(buttonsEtc);
+
         Scene gameOverScene = new Scene(layout);
         this.gameOver = gameOverScene;
-              
+
     }
-    
+
     public void createInstructionScene() {
-        
+
         BorderPane layout = new BorderPane();
-        
+
         layout.setTop(new Label("How To Play"));
-        
+
         Text instruction = new Text();
         instruction.setText("Move sideways by moving your mouse. \n "
                 + "Character jumps automatically on platform. \n "
                 + "Do not fall off screen. ");
-        
+
         Button back = new Button("Back");
         back.setOnAction((event) -> {
             this.handler.setScene(this.startScene);
@@ -150,17 +185,33 @@ public class SceneConstructor {
             createGameScene();
             this.handler.setScene(this.game);
         });
-        
+
         HBox buttons = new HBox();
-        
+
         buttons.getChildren().addAll(back, newGame);
-        
+
         layout.setCenter(instruction);
         layout.setBottom(buttons);
-        
+
         Scene howToPlay = new Scene(layout);
         this.instructionScene = howToPlay;
-        
+
     }
-    
+
+    public Scene getStartScene() {
+        return this.startScene;
+    }
+
+    public Scene getNewGameScene() {
+        return this.newGame;
+    }
+
+    public Scene getGameScene() {
+        return this.game;
+    }
+
+    public Scene getGameOverScene() {
+        return this.gameOver;
+    }
+
 }

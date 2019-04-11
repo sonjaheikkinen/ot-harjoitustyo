@@ -7,6 +7,7 @@ package fi.sonjaheikkinen.gui;
 
 import fi.sonjaheikkinen.domain.GameObject;
 import fi.sonjaheikkinen.logic.GameLogic;
+import fi.sonjaheikkinen.logic.ProgramLogic;
 import java.util.ArrayList;
 import java.util.Iterator;
 import javafx.animation.AnimationTimer;
@@ -27,13 +28,15 @@ public class GameScreenHandler {
     private GameLogic gLogic;
     private StageHandler stageHandler;
     private Label points;
+    private ProgramLogic pLogic;
 
-    public GameScreenHandler(Canvas canvas, Scene scene, Label points, StageHandler handler) {
+    public GameScreenHandler(Canvas canvas, Scene scene, Label points, StageHandler handler, ProgramLogic pLogic) {
         this.game = scene;
         this.canvas = canvas;
         this.gLogic = new GameLogic();
         this.stageHandler = handler;
         this.points = points;
+        this.pLogic = pLogic;
     }
 
     public void updateGame() {
@@ -57,21 +60,23 @@ public class GameScreenHandler {
     public void handleAnimation(GraphicsContext gc, GameObject gameCharacter, ArrayList<GameObject> platforms) {
         LongValue lastNanoTime = new LongValue(System.nanoTime());
         GameLogic gameLogic = this.gLogic;
+        ProgramLogic programLogic = this.pLogic;
         StageHandler handler = this.stageHandler;
         Label pointAmount = this.points;
         new AnimationTimer() {
             @Override
             public void handle(long currentNanoTime) {
-                    if (gameCharacter.getPositionY() > 500) {
-                        handler.gameOver();
-                        this.stop();
-                    }
-                    double elapsedTimeInSeconds = calculateElapsedTime(lastNanoTime, currentNanoTime);
-                    gameLogic.moveCharacter(elapsedTimeInSeconds, gameCharacter);
-                    gameLogic.movePlatforms(elapsedTimeInSeconds, platforms);
-                    gameLogic.detectCollission(gameCharacter, platforms);
-                    pointAmount.setText(gameLogic.getPoints());
-                    render(gc, gameCharacter, platforms);
+                if (gameCharacter.getPositionY() > 500) {
+                    handler.gameOver();
+                    this.stop();
+                }
+                double elapsedTimeInSeconds = calculateElapsedTime(lastNanoTime, currentNanoTime);
+                gameLogic.moveCharacter(elapsedTimeInSeconds, gameCharacter);
+                gameLogic.movePlatforms(elapsedTimeInSeconds, platforms);
+                gameLogic.detectCollission(gameCharacter, platforms);
+                pointAmount.setText("" + gameLogic.getPoints());
+                programLogic.updatePoints(gameLogic);
+                render(gc, gameCharacter, platforms);
             }
         }.start();
     }

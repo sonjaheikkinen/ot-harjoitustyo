@@ -5,6 +5,7 @@
  */
 package fi.sonjaheikkinen.gui;
 
+import fi.sonjaheikkinen.logic.ProgramLogic;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -17,8 +18,10 @@ public class JumpingGameGui extends Application {
         stage.setWidth(400);
         stage.setHeight(500);
         
+        ProgramLogic pLogic = new ProgramLogic();
+        
         StageHandler handler = new StageHandler(stage);
-        SceneConstructor sc = new SceneConstructor(handler);
+        SceneConstructor sc = new SceneConstructor(handler, pLogic);
         handler.setScenes(sc);
         
         sc.createScenes();

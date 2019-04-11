@@ -91,8 +91,8 @@ public class GameLogic {
         }
     }
     
-    public String getPoints() {
-        return "" + this.points;
+    public long getPoints() {
+        return this.points;
     }
 
 }

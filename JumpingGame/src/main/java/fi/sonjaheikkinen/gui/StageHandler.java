@@ -30,6 +30,7 @@ public class StageHandler {
     }
     
     public void gameOver() {
+        this.scenes.createGameOverScene();
         this.stage.setScene(scenes.getGameOverScene());
     }
     
