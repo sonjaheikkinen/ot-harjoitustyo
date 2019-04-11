@@ -11,4 +11,5 @@
 |4.4.   | 5        | refraktorointi, hyppyalustat liikkuu |
 |5.4.   | 3        | testejä lisää, checkstyle käyttöön, pakkauskaavio, käyttöliittymä |
 |9.4.   | 1        | pieniä korjauksia ohjelmaan, dokumentaation päivitys |
-|yht.   | 28       | 
+|11.4.  | 4        | refraktorointia, pistelaskuri ja high score -listaus |
+|yht.   | 32       | 
