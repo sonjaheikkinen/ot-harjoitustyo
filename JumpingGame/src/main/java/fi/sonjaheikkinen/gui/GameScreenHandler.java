@@ -7,7 +7,7 @@ package fi.sonjaheikkinen.gui;
 
 import fi.sonjaheikkinen.domain.GameObject;
 import fi.sonjaheikkinen.logic.GameLogic;
-import fi.sonjaheikkinen.logic.ProgramLogic;
+import fi.sonjaheikkinen.domain.ProgramInformation;
 import java.util.ArrayList;
 import java.util.Iterator;
 import javafx.animation.AnimationTimer;
@@ -28,15 +28,15 @@ public class GameScreenHandler {
     private GameLogic gLogic;
     private StageHandler stageHandler;
     private Label points;
-    private ProgramLogic pLogic;
+    private ProgramInformation pInfo;
 
-    public GameScreenHandler(Canvas canvas, Scene scene, Label points, StageHandler handler, ProgramLogic pLogic) {
+    public GameScreenHandler(Canvas canvas, Scene scene, Label points, StageHandler handler, ProgramInformation pLogic) {
         this.game = scene;
         this.canvas = canvas;
         this.gLogic = new GameLogic();
         this.stageHandler = handler;
         this.points = points;
-        this.pLogic = pLogic;
+        this.pInfo = pLogic;
     }
 
     public void updateGame() {
@@ -60,13 +60,15 @@ public class GameScreenHandler {
     public void handleAnimation(GraphicsContext gc, GameObject gameCharacter, ArrayList<GameObject> platforms) {
         LongValue lastNanoTime = new LongValue(System.nanoTime());
         GameLogic gameLogic = this.gLogic;
-        ProgramLogic programLogic = this.pLogic;
+        ProgramInformation info = this.pInfo;
         StageHandler handler = this.stageHandler;
         Label pointAmount = this.points;
         new AnimationTimer() {
             @Override
             public void handle(long currentNanoTime) {
                 if (gameCharacter.getPositionY() > 500) {
+                    info.updatePoints(gameLogic);
+                    info.updateHighScore();
                     handler.gameOver();
                     this.stop();
                 }
@@ -75,7 +77,6 @@ public class GameScreenHandler {
                 gameLogic.movePlatforms(elapsedTimeInSeconds, platforms);
                 gameLogic.detectCollission(gameCharacter, platforms);
                 pointAmount.setText("" + gameLogic.getPoints());
-                programLogic.updatePoints(gameLogic);
                 render(gc, gameCharacter, platforms);
             }
         }.start();

@@ -5,7 +5,7 @@
  */
 package fi.sonjaheikkinen.gui;
 
-import fi.sonjaheikkinen.logic.ProgramLogic;
+import fi.sonjaheikkinen.domain.ProgramInformation;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -28,13 +28,14 @@ public class SceneConstructor {
     private Scene newGame;
     private Scene game;
     private Scene gameOver;
+    private Scene highScores;
     private Scene instructionScene;
     private StageHandler handler;
-    private ProgramLogic pLogic;
+    private ProgramInformation pInfo;
 
-    public SceneConstructor(StageHandler handler, ProgramLogic pLogic) {
+    public SceneConstructor(StageHandler handler, ProgramInformation pInfo) {
         this.handler = handler;
-        this.pLogic = pLogic;
+        this.pInfo = pInfo;
     }
 
     public void createScenes() {
@@ -62,6 +63,10 @@ public class SceneConstructor {
         howToPlay.setOnAction((event) -> {
             this.handler.setScene(this.instructionScene);
         });
+        highScore.setOnAction((event) -> {
+            createHighScoreScene();
+            this.handler.setScene(this.highScores);
+        });
 
         buttons.getChildren().addAll(startGame, howToPlay, highScore);
 
@@ -85,8 +90,8 @@ public class SceneConstructor {
 
         startGame.setOnAction((event) -> {
             createGameScene();
-            this.pLogic.setCurrentPlayer(playerName.getText());
-            this.pLogic.setPoints(0);
+            this.pInfo.setCurrentPlayer(playerName.getText());
+            this.pInfo.setPoints(0);
             this.handler.setScene(this.game);
         });
 
@@ -125,7 +130,7 @@ public class SceneConstructor {
 
         layout.setRight(pointCalculator);
 
-        GameScreenHandler gch = new GameScreenHandler(canvas, gameScene, pointAmount, this.handler, this.pLogic);
+        GameScreenHandler gch = new GameScreenHandler(canvas, gameScene, pointAmount, this.handler, this.pInfo);
 
         gch.updateGame();
 
@@ -142,13 +147,13 @@ public class SceneConstructor {
         VBox buttonsEtc = new VBox();
         buttonsEtc.setAlignment(Pos.CENTER);
         
-        Label player = new Label("Player: " + this.pLogic.getCurrentPlayer());
-        Label points = new Label("Points: " + this.pLogic.getPoints());
+        Label player = new Label("Player: " + this.pInfo.getCurrentPlayer());
+        Label points = new Label("Points: " + this.pInfo.getPoints());
 
         Button tryAgain = new Button("Try Again");
         tryAgain.setOnAction((event) -> {
             createGameScene();
-            this.pLogic.setPoints(0);
+            this.pInfo.setPoints(0);
             this.handler.setScene(this.game);
         });
 
@@ -196,6 +201,27 @@ public class SceneConstructor {
         Scene howToPlay = new Scene(layout);
         this.instructionScene = howToPlay;
 
+    }
+    
+    public void createHighScoreScene() {
+        
+        BorderPane layout = new BorderPane();
+       
+        layout.setTop(new Label("High Score"));
+        
+        Text highScore = new Text();
+        highScore.setText(this.pInfo.getHighScoreString());
+        layout.setCenter(highScore);
+        
+        Button back = new Button("Back");  
+        back.setOnAction((event) -> {
+            this.handler.setScene(this.startScene);
+        });
+        layout.setBottom(back);
+        
+        Scene highScoreScene = new Scene(layout);
+        this.highScores = highScoreScene;
+        
     }
 
     public Scene getStartScene() {
