@@ -5,7 +5,6 @@
  */
 package fi.sonjaheikkinen.logic;
 
-import fi.sonjaheikkinen.domain.GameCharacter;
 import fi.sonjaheikkinen.domain.GameObject;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -16,9 +15,15 @@ import java.util.Random;
  * @author sonja
  */
 public class GameLogic {
+    
+    private long points;
+    
+    public GameLogic() {
+        this.points = 0;
+    }
 
-    public GameCharacter createGameCharacter() {
-        GameCharacter gameCharacter = new GameCharacter(360, 0, 15, 15, 0, 0);
+    public GameObject createGameCharacter() {
+        GameObject gameCharacter = new GameObject(360, 0, 15, 15, 0, 0);
         return gameCharacter;
     }
 
@@ -42,15 +47,15 @@ public class GameLogic {
 
     }
 
-    public void moveCharacter(double elapsedTimeInSeconds, GameCharacter gameCharacter) {
-        if (gameCharacter.getJump()) {
+    public void moveCharacter(double elapsedTimeInSeconds, GameObject gameCharacter) {
+        if (gameCharacter.getAction()) {
             gameCharacter.changeVelocity(0, 20);
             if (gameCharacter.getVelocityY() >= 500) {
-                gameCharacter.setJump(false);
-                gameCharacter.setVelocity(0, 500);
+                gameCharacter.setAction(false);
+                gameCharacter.setVelocityY(500);
             }
         } else {
-            gameCharacter.setVelocity(0, 500);
+            gameCharacter.setVelocityY(500);
         }
 
         gameCharacter.update(elapsedTimeInSeconds);
@@ -59,25 +64,35 @@ public class GameLogic {
     public void movePlatforms(double elapsedTime, ArrayList<GameObject> platforms) {
         Random random = new Random();
         for (GameObject platform : platforms) {
-            platform.setVelocity(0, 100);
+            platform.setVelocityY(100);
             if (platform.getPositionY() >= 500) {
                 platform.setWidth(70);
                 platform.setPositionY(-10);
                 platform.setPositionX(random.nextInt(300));
+                platform.setAction(false);
             }
             platform.update(elapsedTime);
         }      
     }
 
-    public void detectCollission(GameCharacter gameCharacter, ArrayList<GameObject> platforms) {
+    public void detectCollission(GameObject gameCharacter, ArrayList<GameObject> platforms) {
         Iterator<GameObject> platformIterator = platforms.iterator();
         while (platformIterator.hasNext()) {
             GameObject platform = platformIterator.next();
             if (gameCharacter.intersects(platform) && gameCharacter.getVelocityY() >= 0) {
-                gameCharacter.setVelocity(0, -500);
-                gameCharacter.setJump(true);
+                gameCharacter.setVelocityY(-500);
+                gameCharacter.setAction(true);
+                if (!platform.getAction()) {
+                    //character has not yet been given points from this platform
+                    platform.setAction(true);
+                    this.points += 10;
+                }
             }
         }
+    }
+    
+    public String getPoints() {
+        return "" + this.points;
     }
 
 }

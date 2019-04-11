@@ -80,11 +80,22 @@ public class SceneConstructor {
     
     public void createGameScene() {
         
-        Group root = new Group();
-        Scene gameScene = new Scene(root);
+        BorderPane layout  = new BorderPane();
+        Scene gameScene = new Scene(layout);
+        
         Canvas canvas = new Canvas(400, 500);
-        root.getChildren().add(canvas); 
-        GameScreenHandler gch = new GameScreenHandler(canvas, gameScene, this.handler);
+        layout.getChildren().add(canvas); 
+        
+        VBox pointCalculator = new VBox();
+        pointCalculator.setAlignment(Pos.TOP_RIGHT);
+        Label pointText = new Label("Points: ");
+        Label pointAmount = new Label("0");
+        pointCalculator.getChildren().addAll(pointText, pointAmount);
+        
+        layout.setRight(pointCalculator);
+               
+        GameScreenHandler gch = new GameScreenHandler(canvas, gameScene, pointAmount, this.handler);
+        
         gch.updateGame();
         
         this.game = gameScene;

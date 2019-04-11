@@ -5,7 +5,6 @@
  */
 package fi.sonjaheikkinen.gui;
 
-import fi.sonjaheikkinen.domain.GameCharacter;
 import fi.sonjaheikkinen.domain.GameObject;
 import fi.sonjaheikkinen.logic.GameLogic;
 import java.util.ArrayList;
@@ -15,6 +14,7 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import fi.sonjaheikkinen.other.LongValue;
+import javafx.scene.control.Label;
 
 /**
  *
@@ -26,23 +26,25 @@ public class GameScreenHandler {
     private Canvas canvas;
     private GameLogic gLogic;
     private StageHandler stageHandler;
+    private Label points;
 
-    public GameScreenHandler(Canvas canvas, Scene scene, StageHandler handler) {
+    public GameScreenHandler(Canvas canvas, Scene scene, Label points, StageHandler handler) {
         this.game = scene;
         this.canvas = canvas;
         this.gLogic = new GameLogic();
         this.stageHandler = handler;
+        this.points = points;
     }
 
     public void updateGame() {
         GraphicsContext gc = canvas.getGraphicsContext2D();
-        GameCharacter gameCharacter = this.gLogic.createGameCharacter();
+        GameObject gameCharacter = this.gLogic.createGameCharacter();
         ArrayList<GameObject> platforms = this.gLogic.createPlatforms();
         handleMouseMovement(game, gameCharacter);
         handleAnimation(gc, gameCharacter, platforms);
     }
 
-    public static void handleMouseMovement(Scene game, GameCharacter character) {
+    public static void handleMouseMovement(Scene game, GameObject character) {
 
         game.setOnMouseMoved((event) -> {
 
@@ -52,10 +54,11 @@ public class GameScreenHandler {
         });
     }
 
-    public void handleAnimation(GraphicsContext gc, GameCharacter gameCharacter, ArrayList<GameObject> platforms) {
+    public void handleAnimation(GraphicsContext gc, GameObject gameCharacter, ArrayList<GameObject> platforms) {
         LongValue lastNanoTime = new LongValue(System.nanoTime());
         GameLogic gameLogic = this.gLogic;
         StageHandler handler = this.stageHandler;
+        Label pointAmount = this.points;
         new AnimationTimer() {
             @Override
             public void handle(long currentNanoTime) {
@@ -67,6 +70,7 @@ public class GameScreenHandler {
                     gameLogic.moveCharacter(elapsedTimeInSeconds, gameCharacter);
                     gameLogic.movePlatforms(elapsedTimeInSeconds, platforms);
                     gameLogic.detectCollission(gameCharacter, platforms);
+                    pointAmount.setText(gameLogic.getPoints());
                     render(gc, gameCharacter, platforms);
             }
         }.start();
@@ -78,7 +82,7 @@ public class GameScreenHandler {
         return elapsedTime;
     }
 
-    public static void render(GraphicsContext gc, GameCharacter gameCharacter, ArrayList<GameObject> platforms) {
+    public static void render(GraphicsContext gc, GameObject gameCharacter, ArrayList<GameObject> platforms) {
 
         gc.clearRect(0, 0, 400, 500);
 

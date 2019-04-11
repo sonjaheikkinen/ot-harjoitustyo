@@ -98,7 +98,7 @@ public class GameLogicTest {
     @Test
     public void moveCharacterChangesVelocityDowndWardsCorrectlyIfCharacterJumpStateTrue() {
         this.character.setJump(true);
-        this.character.setVelocity(0, -500);
+        this.character.setVelocityY(0, -500);
         this.gameLogic.moveCharacter(0, character);
         assertTrue(this.character.getVelocityY() == -480);
     }
@@ -106,7 +106,7 @@ public class GameLogicTest {
     @Test
     public void moveCharacterSetsCharacterJumpStateFalseWhenCharacterReachesFallingSpeed() {
         this.character.setJump(true);
-        this.character.setVelocity(0, 480);
+        this.character.setVelocityY(0, 480);
         this.gameLogic.moveCharacter(0, character);
         assertFalse(this.character.getJump());
     }
@@ -114,7 +114,7 @@ public class GameLogicTest {
     @Test
     public void moveCharacterSetsCharacterVelocityYFallingSpeedIfCharacterFallsTooFastInJump() {
         this.character.setJump(true);
-        this.character.setVelocity(0, 490);
+        this.character.setVelocityY(0, 490);
         this.gameLogic.moveCharacter(0, character);
         assertTrue(this.character.getVelocityY() == 500);
     }
@@ -149,7 +149,7 @@ public class GameLogicTest {
     @Test
     public void detectCollissionDoesNotMakeCharacterJumpIfCharacterAlreadyGoingUp() {
         this.testPlatform.get(0).setPositionY(39);
-        this.testCharacter.setVelocity(0, -10);
+        this.testCharacter.setVelocityY(0, -10);
         this.gameLogic.detectCollission(testCharacter, testPlatform);
         assertTrue(testCharacter.getVelocityY() == -10);
     }
