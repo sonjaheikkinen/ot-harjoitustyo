@@ -7,4 +7,6 @@
 <suppressions>
     <suppress files="fi.sonjaheikkinen.gui.JumpingGameGui.java" checks="[a-zA-Z0-9]*"/>
     <suppress files="fi.sonjaheikkinen.gui.SceneConstructor.java" checks="[a-zA-Z0-9]*"/>
+	<suppress files="fi.sonjaheikkinen.gui.GameScreenHandler.java" checks="[a-zA-Z0-9]*"/>
+	<suppress files="fi.sonjaheikkinen.gui.StageHandler.java" checks="[a-zA-Z0-9]*"/>
 </suppressions>

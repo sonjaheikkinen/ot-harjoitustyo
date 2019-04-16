@@ -5,9 +5,7 @@
  */
 package fi.sonjaheikkinen.logic;
 
-import fi.sonjaheikkinen.logic.GameLogic;
 import java.util.ArrayList;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 
@@ -26,8 +24,20 @@ public class ProgramLogic {
     }
 
     public void updateHighScore() {
-        boolean added = false;
+        boolean added;
         ArrayList<String> newHighScoreList = new ArrayList<>();
+        added = addScoreToList(newHighScoreList);
+        if (this.scoreInfo.size() < 10 && !added) {
+            newHighScoreList.add(this.currentPlayer + ":" + this.points);
+        }
+        if (newHighScoreList.size() > 10) {
+            newHighScoreList.remove(newHighScoreList.size() - 1);
+        }
+        this.scoreInfo = newHighScoreList;
+    }
+
+    public boolean addScoreToList(ArrayList<String> newHighScoreList) {
+        boolean added = false;
         for (int i = 0; i < Math.min(scoreInfo.size(), 10); i++) {
             String score = scoreInfo.get(i);
             String[] info = score.split(":");
@@ -38,26 +48,20 @@ public class ProgramLogic {
             }
             newHighScoreList.add(score);
         }
-        if (this.scoreInfo.size() < 10 && !added) {
-            newHighScoreList.add(this.currentPlayer + ":" + this.points);
-        }
-        if (newHighScoreList.size() > 10) {
-            newHighScoreList.remove(newHighScoreList.size() - 1);
-        }
-        this.scoreInfo = newHighScoreList;
+        return added;
     }
 
     public String getHighScoreString() {
         String highScore = "";
-            for (int i = 0; i < Math.min(this.scoreInfo.size(), 10); i++) {
-                String nextRow = this.scoreInfo.get(i);
-                String[] rowInPieces = nextRow.split(":");
-                String newRow = (i + 1) + ". " + rowInPieces[0] + ", " + rowInPieces[1] + " points";
-                highScore = highScore + newRow + "\n";
-            }
+        for (int i = 0; i < Math.min(this.scoreInfo.size(), 10); i++) {
+            String nextRow = this.scoreInfo.get(i);
+            String[] rowInPieces = nextRow.split(":");
+            String newRow = (i + 1) + ". " + rowInPieces[0] + ", " + rowInPieces[1] + " points";
+            highScore = highScore + newRow + "\n";
+        }
         return highScore;
     }
-    
+
     public boolean checkName(Text nameInstruction, TextField playerName) {
         if (playerName.getText().equals("") || playerName.getText() == null) {
             nameInstruction.setText("Name cannot be empty");

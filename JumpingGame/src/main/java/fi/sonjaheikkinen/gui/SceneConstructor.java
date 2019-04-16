@@ -6,20 +6,14 @@
 package fi.sonjaheikkinen.gui;
 
 import fi.sonjaheikkinen.logic.ProgramLogic;
-import java.awt.Color;
 import java.io.File;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -263,15 +257,7 @@ public class SceneConstructor {
 
     public Scene getStartScene() {
         return this.startScene;
-    }
-
-    public Scene getNewGameScene() {
-        return this.newGame;
-    }
-
-    public Scene getGameScene() {
-        return this.game;
-    }
+    }  
 
     public Scene getGameOverScene() {
         return this.gameOver;

@@ -51,7 +51,7 @@
 				<artifactId>maven-jxr-plugin</artifactId>
 				<version>2.5</version>
 			</plugin>
-			  <plugin>
+			<plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
                 <version>1.6</version>

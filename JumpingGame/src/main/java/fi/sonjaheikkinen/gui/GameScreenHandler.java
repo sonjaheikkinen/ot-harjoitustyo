@@ -9,15 +9,11 @@ import fi.sonjaheikkinen.domain.GameObject;
 import fi.sonjaheikkinen.logic.GameLogic;
 import fi.sonjaheikkinen.logic.ProgramLogic;
 import java.util.ArrayList;
-import java.util.Iterator;
 import javafx.animation.AnimationTimer;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import fi.sonjaheikkinen.other.LongValue;
-import java.awt.Color;
-import javafx.scene.control.Label;
-import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
 
 /**

@@ -6,9 +6,8 @@
 package fi.sonjaheikkinen.gui;
 
 import fi.sonjaheikkinen.logic.ProgramLogic;
-import fi.sonjaheikkinen.fileHandling.HighScoreHandler;
+import fi.sonjaheikkinen.filehandling.HighScoreHandler;
 import javafx.application.Application;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class JumpingGameGui extends Application {

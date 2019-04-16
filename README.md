@@ -1,9 +1,10 @@
 # Ohjelmistotekniikka, kevät 2019, harjoitustyö
 
 Harjoitustyön aiheena on pelisovellus, jossa hiirtä liikuttelemalla hypätään alustalta 
-toiselle ja yritetään olla tippumatta. Jatkossa tarkoituksena on kehittää peliin 
-myös pisteiden keräämistoiminto, huippupisteiden tallennus ja lisäominaisuuksia, esim. 
-pisteboosteja, liikkuvia alustoja ja tappavia esineitä.
+toiselle ja yritetään olla tippumatta. Pelaaja saa pisteitä hypätessään ensimmäisen 
+kerran hyppyalustalta, ja kymmenen parasta tulosta tallennetaan highScore-listaan.
+Jatkossa peliä on tarkoitus kehittää jonkinlaisilla pistebuusteilla, liikkuvilla 
+alustoilla tms. lisäominaisuuksilla.
 
 ## Dokumentaatio
 
@@ -12,6 +13,10 @@ pisteboosteja, liikkuvia alustoja ja tappavia esineitä.
 [Arkkitehtuurikuvaus](https://github.com/sonjaheikkinen/ot-harjoitystyo/blob/master/dokumentointi/arkkitehtuuri.md)
 
 [Työaikakirjanpito](https://github.com/sonjaheikkinen/ot-harjoitustyo/blob/master/dokumentointi/tyoaikakirjanpito.md)
+
+## Releaset
+
+[Viikko 5](https://github.com/sonjaheikkinen/ot-harjoitustyo/releases/tag/viikko5)
 
 ## Komentorivitoiminnot
 
@@ -22,6 +27,8 @@ Testit suoritetaan komennolla
 ```
 mvn test
 ```
+
+Testien suorittamiseksi tulee tiedoston test.txt sijaita projektin juurikansiossa.
 
 Testikattavuusraportti luodaan komennolla
 
@@ -43,7 +50,21 @@ Windows PowerShellillä tarvitaan lisäksi lainausmerkit
 mvn compile exec:java -"Dexec.mainClass=fi.sonjaheikkinen.gui.JumpingGameGui"
 ```
 
-###Checkstyle
+### Suoritettavan jarin generointi
+
+Komento
+
+```
+mvn package
+```
+
+generoi hakemistoon *target* suoritettavan jar-tiedoston 
+JumpingGame-1.0-SNAPSHOT.jar
+
+Jar-tiedoston suorittamiseksi tulee tiedostojen highScores.txt ja 
+stylesheet.css sijaita samassa kansiossa jar-tiedoston kanssa.
+
+### Checkstyle
 
 Tiedoston [checkstyle.xml](https://github.com/sonjaheikkinen/ot-harjoitustyo/blob/master/JumpingGame/checkstyle.xml) 
 määrittelemät tarkistukset suoritetaan komennolla 

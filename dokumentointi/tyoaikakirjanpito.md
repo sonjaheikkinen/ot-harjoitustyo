@@ -12,4 +12,7 @@
 |5.4.   | 3        | testejä lisää, checkstyle käyttöön, pakkauskaavio, käyttöliittymä |
 |9.4.   | 1        | pieniä korjauksia ohjelmaan, dokumentaation päivitys |
 |11.4.  | 4        | refraktorointia, pistelaskuri ja high score -listaus |
-|yht.   | 32       | 
+|13.4.  | 2        | testejä, css |
+|14.4.  | 2        | testejä, css |
+|16.4.  | 2        | jar-tiedosto, sekvenssikaavio, pientä korjailua ja dokumentaation päivitys |
+|yht.   | 38       | 

@@ -5,7 +5,7 @@
  */
 package fi.sonjaheikkinen.fileHandlingTest;
 
-import fi.sonjaheikkinen.fileHandling.HighScoreHandler;
+import fi.sonjaheikkinen.filehandling.HighScoreHandler;
 import java.io.File;
 import java.io.PrintWriter;
 import java.util.ArrayList;
