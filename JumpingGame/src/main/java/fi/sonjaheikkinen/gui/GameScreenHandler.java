@@ -7,7 +7,7 @@ package fi.sonjaheikkinen.gui;
 
 import fi.sonjaheikkinen.domain.GameObject;
 import fi.sonjaheikkinen.logic.GameLogic;
-import fi.sonjaheikkinen.domain.ProgramInformation;
+import fi.sonjaheikkinen.logic.ProgramLogic;
 import java.util.ArrayList;
 import java.util.Iterator;
 import javafx.animation.AnimationTimer;
@@ -15,7 +15,10 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import fi.sonjaheikkinen.other.LongValue;
+import java.awt.Color;
 import javafx.scene.control.Label;
+import javafx.scene.paint.Paint;
+import javafx.scene.text.Text;
 
 /**
  *
@@ -27,16 +30,16 @@ public class GameScreenHandler {
     private Canvas canvas;
     private GameLogic gLogic;
     private StageHandler stageHandler;
-    private Label points;
-    private ProgramInformation pInfo;
+    private Text points;
+    private ProgramLogic pLogic;
 
-    public GameScreenHandler(Canvas canvas, Scene scene, Label points, StageHandler handler, ProgramInformation pLogic) {
+    public GameScreenHandler(Canvas canvas, Scene scene, Text points, StageHandler handler, ProgramLogic pLogic) {
         this.game = scene;
         this.canvas = canvas;
         this.gLogic = new GameLogic();
         this.stageHandler = handler;
         this.points = points;
-        this.pInfo = pLogic;
+        this.pLogic = pLogic;
     }
 
     public void updateGame() {
@@ -60,15 +63,15 @@ public class GameScreenHandler {
     public void handleAnimation(GraphicsContext gc, GameObject gameCharacter, ArrayList<GameObject> platforms) {
         LongValue lastNanoTime = new LongValue(System.nanoTime());
         GameLogic gameLogic = this.gLogic;
-        ProgramInformation info = this.pInfo;
+        ProgramLogic programLogic = this.pLogic;
         StageHandler handler = this.stageHandler;
-        Label pointAmount = this.points;
+        Text pointAmount = this.points;
         new AnimationTimer() {
             @Override
             public void handle(long currentNanoTime) {
                 if (gameCharacter.getPositionY() > 500) {
-                    info.updatePoints(gameLogic);
-                    info.updateHighScore();
+                    programLogic.updatePoints(gameLogic);
+                    programLogic.updateHighScore();
                     handler.gameOver();
                     this.stop();
                 }
@@ -76,7 +79,7 @@ public class GameScreenHandler {
                 gameLogic.moveCharacter(elapsedTimeInSeconds, gameCharacter);
                 gameLogic.movePlatforms(elapsedTimeInSeconds, platforms);
                 gameLogic.detectCollission(gameCharacter, platforms);
-                pointAmount.setText("" + gameLogic.getPoints());
+                pointAmount.setText("Points: \n" + gameLogic.getPoints());
                 render(gc, gameCharacter, platforms);
             }
         }.start();
@@ -89,7 +92,9 @@ public class GameScreenHandler {
     }
 
     public static void render(GraphicsContext gc, GameObject gameCharacter, ArrayList<GameObject> platforms) {
-
+        
+        gc.setFill(javafx.scene.paint.Color.WHITE);
+        
         gc.clearRect(0, 0, 400, 500);
 
         double characterX = gameCharacter.getPositionX();

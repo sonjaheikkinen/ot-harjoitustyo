@@ -3,16 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package fi.sonjaheikkinen.domain;
+package fi.sonjaheikkinen.logic;
 
 import fi.sonjaheikkinen.logic.GameLogic;
 import java.util.ArrayList;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.text.Text;
 
 /**
  *
  * @author sonja
  */
-public class ProgramInformation {
+public class ProgramLogic {
 
     private String currentPlayer;
     private long points;
@@ -25,31 +28,47 @@ public class ProgramInformation {
     public void updateHighScore() {
         boolean added = false;
         ArrayList<String> newHighScoreList = new ArrayList<>();
-        for (int i = 0; i < Math.min(scoreInfo.size(), 20); i++) {
+        for (int i = 0; i < Math.min(scoreInfo.size(), 10); i++) {
             String score = scoreInfo.get(i);
             String[] info = score.split(":");
             int scorePoints = Integer.parseInt(info[1]);
-            if (this.points > scorePoints && !added) {
+            if (this.points >= scorePoints && !added) {
                 newHighScoreList.add(this.currentPlayer + ":" + this.points);
                 added = true;
             }
             newHighScoreList.add(score);
         }
-        if (this.scoreInfo.size() < 20 && !added) {
+        if (this.scoreInfo.size() < 10 && !added) {
             newHighScoreList.add(this.currentPlayer + ":" + this.points);
+        }
+        if (newHighScoreList.size() > 10) {
+            newHighScoreList.remove(newHighScoreList.size() - 1);
         }
         this.scoreInfo = newHighScoreList;
     }
 
     public String getHighScoreString() {
         String highScore = "";
-        for (int i = 0; i < Math.min(this.scoreInfo.size(), 20); i++) {
-            String nextRow = this.scoreInfo.get(i);
-            String[] rowInPieces = nextRow.split(":");
-            String newRow = (i + 1) + ". " + rowInPieces[0] + ", " + rowInPieces[1] + " points";
-            highScore = highScore + newRow + "\n";
-        }
+            for (int i = 0; i < Math.min(this.scoreInfo.size(), 10); i++) {
+                String nextRow = this.scoreInfo.get(i);
+                String[] rowInPieces = nextRow.split(":");
+                String newRow = (i + 1) + ". " + rowInPieces[0] + ", " + rowInPieces[1] + " points";
+                highScore = highScore + newRow + "\n";
+            }
         return highScore;
+    }
+    
+    public boolean checkName(Text nameInstruction, TextField playerName) {
+        if (playerName.getText().equals("") || playerName.getText() == null) {
+            nameInstruction.setText("Name cannot be empty");
+            return false;
+        } else if (!playerName.getText().matches("[a-öA-Ö0-9]+")) {
+            nameInstruction.setText("Name should only contain numbers and letters from A to Ö");
+            return false;
+        } else {
+            nameInstruction.setText("");
+            return true;
+        }
     }
 
     public String getCurrentPlayer() {

@@ -5,7 +5,8 @@
  */
 package fi.sonjaheikkinen.domainTest;
 
-import fi.sonjaheikkinen.domain.GameCharacter;
+import fi.sonjaheikkinen.domain.GameObject
+        ;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -17,9 +18,9 @@ import static org.junit.Assert.*;
  *
  * @author sonja
  */
-public class GameCharacterTest {
+public class GameObjectTest {
     
-    public GameCharacterTest() {
+    public GameObjectTest() {
     }
     
     @BeforeClass
@@ -39,8 +40,8 @@ public class GameCharacterTest {
     }
 
     @Test
-    public void characterInitialJumpStateFalse() {
-        GameCharacter character = new GameCharacter(0, 0, 0, 0, 0, 0);
-        assertFalse(character.getJump());
+    public void characterInitialActionStateFalse() {
+        GameObject character = new GameObject(0, 0, 0, 0, 0, 0);
+        assertFalse(character.getAction());
     }
 }

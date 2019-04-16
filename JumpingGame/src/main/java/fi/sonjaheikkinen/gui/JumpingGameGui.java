@@ -5,7 +5,7 @@
  */
 package fi.sonjaheikkinen.gui;
 
-import fi.sonjaheikkinen.domain.ProgramInformation;
+import fi.sonjaheikkinen.logic.ProgramLogic;
 import fi.sonjaheikkinen.fileHandling.HighScoreHandler;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -13,14 +13,14 @@ import javafx.stage.Stage;
 
 public class JumpingGameGui extends Application {
 
-    ProgramInformation pInfo;
+    ProgramLogic pLogic;
     HighScoreHandler highScoreHandler;
 
     @Override
     public void init() {
-        this.pInfo = new ProgramInformation();
+        this.pLogic = new ProgramLogic();
         this.highScoreHandler = new HighScoreHandler();
-        this.pInfo.setScoreInfo(this.highScoreHandler.readHighScore());
+        this.pLogic.setScoreInfo(this.highScoreHandler.readHighScore("highScores.txt"));
     }
 
     @Override
@@ -30,7 +30,7 @@ public class JumpingGameGui extends Application {
         stage.setHeight(500);
 
         StageHandler handler = new StageHandler(stage);
-        SceneConstructor sc = new SceneConstructor(handler, pInfo);
+        SceneConstructor sc = new SceneConstructor(handler, pLogic);
         handler.setScenes(sc);
 
         sc.createScenes();
@@ -42,7 +42,7 @@ public class JumpingGameGui extends Application {
     
     @Override
     public void stop() {
-        this.highScoreHandler.writeHighScore(this.pInfo.getScoreInfo());
+        this.highScoreHandler.writeHighScore(this.pLogic.getScoreInfo(), "highScores.txt");
     }
 
     public static void main(String args[]) {

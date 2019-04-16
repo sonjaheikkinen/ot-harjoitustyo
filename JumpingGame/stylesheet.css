@@ -1,0 +1,32 @@
+
+.root {
+	-fx-background-color :  #000033;
+}
+
+#mainHeading {
+	-fx-text-fill : white;
+	-fx-font-family: Impact;
+	-fx-font-size : 50;
+	-fx-padding : 50 0 0 35;
+}
+
+Label {
+	-fx-text-fill : white;
+	-fx-font-size : 40;
+	-fx-padding : 50 0 0 85;
+}
+
+.button {
+	-fx-font-size : 20;
+}
+
+Text {
+	-fx-fill : white;
+	-fx-font-size : 13;
+}
+
+VBox, HBox {
+	-fx-spacing : 30;
+	-fx-padding : 30;
+}
+

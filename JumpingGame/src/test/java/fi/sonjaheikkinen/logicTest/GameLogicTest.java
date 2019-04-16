@@ -5,7 +5,6 @@
  */
 package fi.sonjaheikkinen.logicTest;
 
-import fi.sonjaheikkinen.domain.GameCharacter;
 import fi.sonjaheikkinen.domain.GameObject;
 import fi.sonjaheikkinen.logic.GameLogic;
 import java.util.ArrayList;
@@ -23,8 +22,8 @@ import static org.junit.Assert.*;
 public class GameLogicTest {
     
     private GameLogic gameLogic;
-    private GameCharacter character;
-    private GameCharacter testCharacter;
+    private GameObject character;
+    private GameObject testCharacter;
     private ArrayList<GameObject> platforms;
     private ArrayList<GameObject> testPlatform;
     
@@ -43,7 +42,7 @@ public class GameLogicTest {
     public void setUp() {
         this.gameLogic = new GameLogic();
         this.character = this.gameLogic.createGameCharacter();
-        this.testCharacter = new GameCharacter(0, 0, 40, 40, 0, 0);
+        this.testCharacter = new GameObject(0, 0, 40, 40, 0, 0);
         this.platforms = this.gameLogic.createPlatforms();
         GameObject platform = new GameObject(0, 0, 100, 10, 0, 0);
         this.testPlatform = new ArrayList<>();
@@ -97,24 +96,24 @@ public class GameLogicTest {
     
     @Test
     public void moveCharacterChangesVelocityDowndWardsCorrectlyIfCharacterJumpStateTrue() {
-        this.character.setJump(true);
-        this.character.setVelocityY(0, -500);
+        this.character.setAction(true);
+        this.character.setVelocityY(-500);
         this.gameLogic.moveCharacter(0, character);
         assertTrue(this.character.getVelocityY() == -480);
     }
     
     @Test
     public void moveCharacterSetsCharacterJumpStateFalseWhenCharacterReachesFallingSpeed() {
-        this.character.setJump(true);
-        this.character.setVelocityY(0, 480);
+        this.character.setAction(true);
+        this.character.setVelocityY(480);
         this.gameLogic.moveCharacter(0, character);
-        assertFalse(this.character.getJump());
+        assertFalse(this.character.getAction());
     }
     
     @Test
     public void moveCharacterSetsCharacterVelocityYFallingSpeedIfCharacterFallsTooFastInJump() {
-        this.character.setJump(true);
-        this.character.setVelocityY(0, 490);
+        this.character.setAction(true);
+        this.character.setVelocityY(490);
         this.gameLogic.moveCharacter(0, character);
         assertTrue(this.character.getVelocityY() == 500);
     }
@@ -136,7 +135,7 @@ public class GameLogicTest {
     public void detectCollissionSetsCharacterJumpStateTrueIfCharacterTouchesPlatform() {
         this.testPlatform.get(0).setPositionY(39);
         this.gameLogic.detectCollission(testCharacter, testPlatform);
-        assertTrue(this.testCharacter.getJump());
+        assertTrue(this.testCharacter.getAction());
     }
     
     @Test
@@ -149,7 +148,7 @@ public class GameLogicTest {
     @Test
     public void detectCollissionDoesNotMakeCharacterJumpIfCharacterAlreadyGoingUp() {
         this.testPlatform.get(0).setPositionY(39);
-        this.testCharacter.setVelocityY(0, -10);
+        this.testCharacter.setVelocityY(-10);
         this.gameLogic.detectCollission(testCharacter, testPlatform);
         assertTrue(testCharacter.getVelocityY() == -10);
     }

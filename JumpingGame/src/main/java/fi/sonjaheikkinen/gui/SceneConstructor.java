@@ -5,7 +5,10 @@
  */
 package fi.sonjaheikkinen.gui;
 
-import fi.sonjaheikkinen.domain.ProgramInformation;
+import fi.sonjaheikkinen.logic.ProgramLogic;
+import java.awt.Color;
+import java.io.File;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -13,7 +16,10 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -31,11 +37,13 @@ public class SceneConstructor {
     private Scene highScores;
     private Scene instructionScene;
     private StageHandler handler;
-    private ProgramInformation pInfo;
+    private ProgramLogic pLogic;
+    private File f;
 
-    public SceneConstructor(StageHandler handler, ProgramInformation pInfo) {
+    public SceneConstructor(StageHandler handler, ProgramLogic pInfo) {
         this.handler = handler;
-        this.pInfo = pInfo;
+        this.pLogic = pInfo;
+        this.f = new File("stylesheet.css");
     }
 
     public void createScenes() {
@@ -46,10 +54,13 @@ public class SceneConstructor {
     public void createStartScene() {
 
         BorderPane layout = new BorderPane();
+
         VBox buttons = new VBox();
         buttons.setAlignment(Pos.CENTER);
 
-        layout.setTop(new Label("Jumping Game"));
+        Label heading = new Label("Jumping Game");
+        heading.setId("mainHeading");
+        layout.setTop(heading);
         layout.setCenter(buttons);
 
         Button startGame = new Button("New Game");
@@ -71,6 +82,10 @@ public class SceneConstructor {
         buttons.getChildren().addAll(startGame, howToPlay, highScore);
 
         Scene start = new Scene(layout);
+
+        start.getStylesheets().clear();
+        start.getStylesheets().add("file:///" + this.f.getAbsolutePath().replace("\\", "/"));
+
         this.startScene = start;
 
     }
@@ -83,33 +98,42 @@ public class SceneConstructor {
 
         VBox things = new VBox();
 
+        Text nameInstruction = new Text();
         HBox nameField = new HBox();
-        Label name = new Label("Name: ");
+        Text name = new Text("Name: ");
         TextField playerName = new TextField();
         Button startGame = new Button("Start Game");
 
         startGame.setOnAction((event) -> {
-            createGameScene();
-            this.pInfo.setCurrentPlayer(playerName.getText());
-            this.pInfo.setPoints(0);
-            this.handler.setScene(this.game);
+            boolean nameMatchesFormat = this.pLogic.checkName(nameInstruction, playerName);
+            if (nameMatchesFormat) {
+                this.pLogic.setCurrentPlayer(playerName.getText());
+                this.pLogic.setPoints(0);
+                createGameScene();
+                this.handler.setScene(this.game);
+            }
         });
 
         nameField.getChildren().addAll(name, playerName);
-        things.getChildren().addAll(nameField, startGame);
+        things.getChildren().addAll(nameInstruction, nameField, startGame);
         nameField.setAlignment(Pos.CENTER);
         things.setAlignment(Pos.CENTER);
 
+        HBox buttons = new HBox();
         Button back = new Button("Back");
-
         back.setOnAction((event) -> {
             this.handler.setScene(this.startScene);
         });
-        
+        buttons.getChildren().add(back);
+
         layout.setCenter(things);
-        layout.setBottom(back);
+        layout.setBottom(buttons);
 
         Scene newGameScene = new Scene(layout);
+
+        newGameScene.getStylesheets().clear();
+        newGameScene.getStylesheets().add("file:///" + this.f.getAbsolutePath().replace("\\", "/"));
+
         this.newGame = newGameScene;
 
     }
@@ -122,17 +146,16 @@ public class SceneConstructor {
         Canvas canvas = new Canvas(400, 500);
         layout.getChildren().add(canvas);
 
-        VBox pointCalculator = new VBox();
-        pointCalculator.setAlignment(Pos.TOP_RIGHT);
-        Label pointText = new Label("Points: ");
-        Label pointAmount = new Label("0");
-        pointCalculator.getChildren().addAll(pointText, pointAmount);
+        Text pointText = new Text("Points: \n0");
 
-        layout.setRight(pointCalculator);
+        layout.setRight(pointText);
 
-        GameScreenHandler gch = new GameScreenHandler(canvas, gameScene, pointAmount, this.handler, this.pInfo);
+        GameScreenHandler gch = new GameScreenHandler(canvas, gameScene, pointText, this.handler, this.pLogic);
 
         gch.updateGame();
+
+        gameScene.getStylesheets().clear();
+        gameScene.getStylesheets().add("file:///" + this.f.getAbsolutePath().replace("\\", "/"));
 
         this.game = gameScene;
 
@@ -146,14 +169,14 @@ public class SceneConstructor {
 
         VBox buttonsEtc = new VBox();
         buttonsEtc.setAlignment(Pos.CENTER);
-        
-        Label player = new Label("Player: " + this.pInfo.getCurrentPlayer());
-        Label points = new Label("Points: " + this.pInfo.getPoints());
+
+        Text player = new Text("Player: " + this.pLogic.getCurrentPlayer());
+        Text points = new Text("Points: " + this.pLogic.getPoints());
 
         Button tryAgain = new Button("Try Again");
         tryAgain.setOnAction((event) -> {
             createGameScene();
-            this.pInfo.setPoints(0);
+            this.pLogic.setPoints(0);
             this.handler.setScene(this.game);
         });
 
@@ -166,6 +189,10 @@ public class SceneConstructor {
         layout.setCenter(buttonsEtc);
 
         Scene gameOverScene = new Scene(layout);
+
+        gameOverScene.getStylesheets().clear();
+        gameOverScene.getStylesheets().add("file:///" + this.f.getAbsolutePath().replace("\\", "/"));
+
         this.gameOver = gameOverScene;
 
     }
@@ -177,8 +204,8 @@ public class SceneConstructor {
         layout.setTop(new Label("How To Play"));
 
         Text instruction = new Text();
-        instruction.setText("Move sideways by moving your mouse. \n "
-                + "Character jumps automatically on platform. \n "
+        instruction.setText("Move sideways by moving your mouse. \n"
+                + "Character jumps automatically on platform. \n"
                 + "Do not fall off screen. ");
 
         Button back = new Button("Back");
@@ -187,8 +214,8 @@ public class SceneConstructor {
         });
         Button newGame = new Button("New Game");
         newGame.setOnAction((event) -> {
-            createGameScene();
-            this.handler.setScene(this.game);
+            createNewGameScene();
+            this.handler.setScene(this.newGame);
         });
 
         HBox buttons = new HBox();
@@ -199,29 +226,39 @@ public class SceneConstructor {
         layout.setBottom(buttons);
 
         Scene howToPlay = new Scene(layout);
+
+        howToPlay.getStylesheets().clear();
+        howToPlay.getStylesheets().add("file:///" + this.f.getAbsolutePath().replace("\\", "/"));
+
         this.instructionScene = howToPlay;
 
     }
-    
+
     public void createHighScoreScene() {
-        
+
         BorderPane layout = new BorderPane();
-       
+
         layout.setTop(new Label("High Score"));
-        
+
         Text highScore = new Text();
-        highScore.setText(this.pInfo.getHighScoreString());
+        highScore.setText(this.pLogic.getHighScoreString());
         layout.setCenter(highScore);
-        
-        Button back = new Button("Back");  
+
+        HBox buttons = new HBox();
+        Button back = new Button("Back");
         back.setOnAction((event) -> {
             this.handler.setScene(this.startScene);
         });
-        layout.setBottom(back);
-        
+        buttons.getChildren().add(back);
+        layout.setBottom(buttons);
+
         Scene highScoreScene = new Scene(layout);
+
+        highScoreScene.getStylesheets().clear();
+        highScoreScene.getStylesheets().add("file:///" + this.f.getAbsolutePath().replace("\\", "/"));
+
         this.highScores = highScoreScene;
-        
+
     }
 
     public Scene getStartScene() {
