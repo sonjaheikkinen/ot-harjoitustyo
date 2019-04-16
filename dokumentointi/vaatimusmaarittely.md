@@ -2,10 +2,10 @@
 
 ## Sovelluksen tarkoitus
 
-Kyseessä on avaruusteemainen hyppelypeli, jossa hiirtä siirtelemällä yritetään 
-saada hahmo (avaruuslimaolio) hyppimään yhä vain korkeammalle satunnaisgeneroituja 
-tasoja (asteroideja) pitkin. Pisteitä saa korkeuden mukaan, ja peli vaikeutuu 
-sen edetessä. Pisteitä voi lisätä ja peliä helpottaa myös erilaisilla boosteilla. 
+Kyseessä on hyppelypeli, jossa hiirtä siirtelemällä yritetään 
+saada hahmo hyppimään yhä vain korkeammalle satunnaisgeneroituja 
+tasoja pitkin. Pisteitä saa osuessaan uudelle alustalle ensimmäisen kerran.
+Pisteitä voi lisätä ja peliä helpottaa myös erilaisilla boosteilla. 
 
 ## Käyttäjät
 
@@ -26,27 +26,25 @@ mahdollisesti vielä yksi lisänäkymä.
 ## Perusversion toiminnallisuus
 
 - Hahmo siirty sivusuunnassa hiirtä liikuttamalla ja hyppää osuessaan hyppyalustaan
-- Hyppyalusta katoaa / rikkoutuu siihen osuttaessa
-- Pisteitä saa osuessaan hyppyalustaan ja lisäksi korkeuden lisääntyessä
-- (Parhaat pisteet tallennetaan high score -listaukseen)
+- Pisteitä saa osuessaan hyppyalustaan
+- Parhaat pisteet tallennetaan high score -listaukseen
 
 ## Jatkokehitysideoita
 
-Perustoiminnallisuuden lisäksi peliä voidaan täydentää esim. seuraavilla 
-toiminnoilla: 
+Perustoiminnallisuuden lisäksi peliä voidaan ajan salliessa täydentää esim. 
+seuraavilla toiminnoilla: 
 
 - Peli vaikeutuu sen edetessä 
-  - tasot generoituvat kauemmas toisistaan
+  - tasot generoituvat kauemmas toisistaan ja/tai tippuvat nopeammin
   - sivu- ja pystysuunnassa liikkuvia tasoja
-  - radioaktiivisia asteroideja / avaruuspetoja, joihin ei saa osua
+  - tappavia peliobjekteja, joihin ei saa osua
 - Peliä voi helpottaa erilaisilla boosteilla
   - superhypyt
   - aseet joilla voi tuhota asioita joihin ei saa osua
   - pisteboostit, esim. tuplapisteet kymmenen sekunnin ajaksi
   - lisäelämät
-- Kirjautumistoiminnallisuus, jolloin henkilökohtaisten ennätysten seuraaminen toimii
 - Kivaa pikku tilpehööriä:
+  - peligrafiikka
   - mahdollisuus valita hahmon väri
-  - muuttuvia taustakoristeita esim. planeettoja
-- (High score, jos ei ehditä toteuttaa perusversioon)
+  - taustakoristeet
 
