@@ -1,7 +1,10 @@
-Sonja:70
-Sonja:70
-Sonja:60
-Sonja:30
-Sonja:30
-Sonja:30
-TestPlayer:0
+Sonja:448090
+Kaius:4047
+Sonja:2639
+Kaius:2112
+Sonja:1893
+Sonja:1618
+Sonja:1392
+Sonja:1213
+Sonja:1090
+s:1030

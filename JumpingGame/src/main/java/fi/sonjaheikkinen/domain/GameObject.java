@@ -21,13 +21,13 @@ public class GameObject {
     private double height;
     private boolean action;
 
-    public GameObject(double x, double y, double width, double heigth, double velocityX, double velocityY) {
+    public GameObject(double x, double y, double width, double height, double velocityX, double velocityY) {
         this.positionX = x;
         this.positionY = y;
         this.velocityX = velocityX;
         this.velocityY = velocityY;
         this.width = width;
-        this.height = heigth;
+        this.height = height;
         this.action = false;
     }
 
@@ -89,7 +89,7 @@ public class GameObject {
         this.width = width;
     }
 
-    public double getHeigth() {
+    public double getHeight() {
         return this.height;
     }
 

@@ -140,11 +140,11 @@ public class SceneConstructor {
         Canvas canvas = new Canvas(400, 500);
         layout.getChildren().add(canvas);
 
-        Text pointText = new Text("Points: \n0");
+        Text infoText = new Text("Points: \n0 \nLives: \n3");
 
-        layout.setRight(pointText);
+        layout.setRight(infoText);
 
-        GameScreenHandler gch = new GameScreenHandler(canvas, gameScene, pointText, this.handler, this.pLogic);
+        GameScreenHandler gch = new GameScreenHandler(canvas, gameScene, infoText, this.handler, this.pLogic);
 
         gch.updateGame();
 

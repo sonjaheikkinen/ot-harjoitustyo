@@ -42,8 +42,10 @@ public class GameScreenHandler {
         GraphicsContext gc = canvas.getGraphicsContext2D();
         GameObject gameCharacter = this.gLogic.createGameCharacter();
         ArrayList<GameObject> platforms = this.gLogic.createPlatforms();
+        ArrayList<GameObject> traps = this.gLogic.createTraps();
+        ArrayList<GameObject> boosts = this.gLogic.createBoosts();
         handleMouseMovement(game, gameCharacter);
-        handleAnimation(gc, gameCharacter, platforms);
+        handleAnimation(gc, gameCharacter, platforms, traps, boosts);
     }
 
     public static void handleMouseMovement(Scene game, GameObject character) {
@@ -56,7 +58,8 @@ public class GameScreenHandler {
         });
     }
 
-    public void handleAnimation(GraphicsContext gc, GameObject gameCharacter, ArrayList<GameObject> platforms) {
+    public void handleAnimation(GraphicsContext gc, GameObject gameCharacter, ArrayList<GameObject> platforms,
+            ArrayList<GameObject> traps, ArrayList<GameObject> boosts) {
         LongValue lastNanoTime = new LongValue(System.nanoTime());
         GameLogic gameLogic = this.gLogic;
         ProgramLogic programLogic = this.pLogic;
@@ -72,27 +75,50 @@ public class GameScreenHandler {
                     this.stop();
                 }
                 double elapsedTimeInSeconds = calculateElapsedTime(lastNanoTime, currentNanoTime);
-                gameLogic.moveCharacter(elapsedTimeInSeconds, gameCharacter);
-                gameLogic.movePlatforms(elapsedTimeInSeconds, platforms);
-                gameLogic.detectCollission(gameCharacter, platforms);
-                pointAmount.setText("Points: \n" + gameLogic.getPoints());
-                render(gc, gameCharacter, platforms);
+                moveGameObjects(elapsedTimeInSeconds, gameLogic, gameCharacter, platforms, traps, boosts);
+                detectCollission(gameLogic, gameCharacter, platforms, traps);
+                gameLogic.handleLevel();
+                pointAmount.setText("Points: \n" + gameLogic.getPoints() + "\nLives: \n" + gameLogic.getLives());
+                render(gc, gameCharacter, platforms, traps);
             }
+
         }.start();
     }
 
-    public static double calculateElapsedTime(LongValue lastNanoTime, long currentNanoTime) {
+    public void moveGameObjects(double elapsedTimeInSeconds, GameLogic gameLogic, GameObject gameCharacter,
+            ArrayList<GameObject> platforms, ArrayList<GameObject> traps, ArrayList<GameObject> boosts) {
+        gameLogic.moveCharacter(elapsedTimeInSeconds, gameCharacter);
+        gameLogic.movePlatforms(elapsedTimeInSeconds, platforms);
+        gameLogic.moveTraps(elapsedTimeInSeconds, traps);
+        gameLogic.moveBoosts(elapsedTimeInSeconds, boosts);
+    }
+
+    public void detectCollission(GameLogic gameLogic, GameObject gameCharacter, ArrayList<GameObject> platforms, 
+            ArrayList<GameObject> traps) {
+        gameLogic.detectCollissionWithPlatforms(gameCharacter, platforms);
+        gameLogic.detectDeathOnTrap(gameCharacter, traps);
+    }
+
+    public double calculateElapsedTime(LongValue lastNanoTime, long currentNanoTime) {
         double elapsedTime = (currentNanoTime - lastNanoTime.getValue()) / 1000000000.0;
         lastNanoTime.setValue(currentNanoTime);
         return elapsedTime;
     }
 
-    public static void render(GraphicsContext gc, GameObject gameCharacter, ArrayList<GameObject> platforms) {
-        
+    public void render(GraphicsContext gc, GameObject gameCharacter, ArrayList<GameObject> platforms,
+            ArrayList<GameObject> traps) {
+
         gc.setFill(javafx.scene.paint.Color.WHITE);
-        
+
         gc.clearRect(0, 0, 400, 500);
 
+        renderCharacter(gc, gameCharacter);
+        renderPlatforms(gc, platforms);
+        renderTraps(gc, traps);
+
+    }
+
+    public void renderCharacter(GraphicsContext gc, GameObject gameCharacter) {
         double characterX = gameCharacter.getPositionX();
         if (characterX < 0) {
             characterX = 0;
@@ -100,10 +126,18 @@ public class GameScreenHandler {
             characterX = 360;
         }
 
-        gc.fillRect(characterX, gameCharacter.getPositionY(), gameCharacter.getWidth(), gameCharacter.getHeigth());
+        gc.fillRect(characterX, gameCharacter.getPositionY(), gameCharacter.getWidth(), gameCharacter.getHeight());
+    }
 
+    public void renderPlatforms(GraphicsContext gc, ArrayList<GameObject> platforms) {
         for (GameObject platform : platforms) {
-            gc.fillRect(platform.getPositionX(), platform.getPositionY(), platform.getWidth(), platform.getHeigth());
+            gc.fillRect(platform.getPositionX(), platform.getPositionY(), platform.getWidth(), platform.getHeight());
+        }
+    }
+
+    public void renderTraps(GraphicsContext gc, ArrayList<GameObject> traps) {
+        for (GameObject trap : traps) {
+            gc.fillOval(trap.getPositionX(), trap.getPositionY(), trap.getWidth(), trap.getHeight());
         }
     }
 

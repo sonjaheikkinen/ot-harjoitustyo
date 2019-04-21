@@ -15,4 +15,6 @@
 |13.4.  | 2        | testejä, css |
 |14.4.  | 2        | testejä, css |
 |16.4.  | 2        | jar-tiedosto, sekvenssikaavio, pientä korjailua ja dokumentaation päivitys |
+|19.4.  | 2        | tappavat ansat luotu |
+|20.4.  | 3        | luotu pelimekaniikkoja ansojen ympärille ja piilo"tasot" joiden mukaan peli vaikeutuu |
 |yht.   | 38       | 
