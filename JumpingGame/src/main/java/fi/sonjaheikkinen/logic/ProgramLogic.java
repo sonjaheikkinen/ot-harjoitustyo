@@ -41,9 +41,8 @@ public class ProgramLogic {
      * Metodi lisää uuden pelituloksen listaan, mikäli listan koko on pienempi kuin kymmenen, tai uusin tulos on
      * suurempi kuin jokin listalla jo oleva tulos. Jos listan koko on lopuksi suurempi kuin kymmenen, pudotetaan pienin
      * tulos pois, jotta listan koko palautuu oikeaksi. Apuna käytetään metodia addScoreToList()
-     * 
-     * @see this.addScoreToList()
      */
+    
     public void updateHighScore() {
         boolean added;
         ArrayList<String> newHighScoreList = new ArrayList<>();
@@ -135,7 +134,7 @@ public class ProgramLogic {
      * @param filename kirjoitettavan tiedoston nimi
      */
     public void saveScoreInfo(String filename) {
-        this.hch.writeHighScore(this.scoreInfo, "filename");
+        this.hch.writeHighScore(this.scoreInfo, filename);
     }
 
     public String getCurrentPlayer() {

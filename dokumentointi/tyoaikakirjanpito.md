@@ -17,8 +17,8 @@
 |16.4.  | 2        | jar-tiedosto, sekvenssikaavio, pientä korjailua ja dokumentaation päivitys |
 |19.4.  | 2        | tappavat ansat luotu |
 |20.4.  | 3        | luotu pelimekaniikkoja ansojen ympärille ja piilo"tasot" joiden mukaan peli vaikeutuu |
-|21.4.  | 2        | boostit lisätty, refaktorointi |
+|21.4.  | 2        | boostit lisätty, refaktorointi, lisää testejä |
 |22.4.  | 1        | javadoc |
 |25.4.  | 2        | javadoc jatkuu, refaktorointi, testien korjaus |
-
+|26.4.  | 6,5      | javadoc, refaktorointi, testit, arkkitehtuuri, käyttöohje |
 |yht.   | 38       | 

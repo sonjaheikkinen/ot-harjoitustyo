@@ -192,7 +192,8 @@ public class SceneConstructor {
         Text instruction = new Text();
         instruction.setText("Move sideways by moving your mouse. \n"
                 + "Character jumps automatically on platform. \n"
-                + "Do not fall off screen. ");
+                + "Do not fall off screen. \n"
+                + "Avoid circles, collect triangles.");
 
         Button back = new Button("Back");
         back.setOnAction((event) -> {

@@ -12,7 +12,6 @@ import javafx.stage.Stage;
 /**
  * Luokka käynnistää koko ohjelman, ja hoitaa myös high score -tietojen lukemisen tiedostosta ohjelman suorituksen alussa,  
  * ja tietojen päivittämiseen kirjastoon suorituksen lopuksi.
- * @author sonja
  */
 public class JumpingGameGui extends Application {
 
@@ -32,7 +31,7 @@ public class JumpingGameGui extends Application {
      * Metodi hoitaa varsinaisen ohjelman suorituksen. Se asettaa ikkunan kooksi 400x500, luo näkymiä hallitsevan 
      * StageHandler-olion ja näkymiä rakentavan SceneConstructor-olion, ja rakentaa niiden avulla ohjelman eri näkymät 
      * ja niiden väliset suhteet. Lopuksi se asettaa ikkunaan aloitusnäkymän ja asettaa ikkunan näkyväksi käyttäjälle. 
-     * @param stage 
+     * @param stage ikkuna
      */
     @Override
     public void start(Stage stage) {
@@ -61,7 +60,7 @@ public class JumpingGameGui extends Application {
 
     /**
      * Metodi suorittaa ohjelman kutsumalla ensin metodia init(), sitten metodia start(), ja lopuksi metodia stop().
-     * @param args 
+     * @param args String args
      */
     public static void main(String args[]) {
         launch(JumpingGameGui.class);
