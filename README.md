@@ -10,11 +10,15 @@ alustoilla tms. lisäominaisuuksilla.
 
 [Vaatimusmäärittely](https://github.com/sonjaheikkinen/ot-harjoitustyo/blob/master/dokumentointi/vaatimusmaarittely.md)
 
-[Arkkitehtuurikuvaus](https://github.com/sonjaheikkinen/ot-harjoitystyo/blob/master/dokumentointi/arkkitehtuuri.md)
+[Arkkitehtuurikuvaus](https://github.com/sonjaheikkinen/ot-harjoitustyo/blob/master/dokumentointi/arkkitehtuuri.md)
+
+[Käyttöohje](https://github.com/sonjaheikkinen/ot-harjoitustyo/blob/master/kayttoohje.md)
 
 [Työaikakirjanpito](https://github.com/sonjaheikkinen/ot-harjoitustyo/blob/master/dokumentointi/tyoaikakirjanpito.md)
 
 ## Releaset
+
+[Viikko 6](https://github.com/sonjaheikkinen/ot-harjoitustyo/releases/tag/viikko6)
 
 [Viikko 5](https://github.com/sonjaheikkinen/ot-harjoitustyo/releases/tag/viikko5)
 
@@ -76,6 +80,13 @@ mvn jxr:jxr checkstyle:checkstyle
 Mahdolliset virheilmoiukset selviävät avaamalla selaimella tiedosto 
 *target/site/checkstyle.html*
 
+### Javadoc
+
+Javadoc generoidaan komennolla 
+
+```
+mvn javadoc:javadoc
+```
 
 
 

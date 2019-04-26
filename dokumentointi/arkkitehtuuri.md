@@ -14,7 +14,7 @@ ovat pakkauksen fi.sonjaheikkinen sisällä, vaikkei sitä ole kaavion piirretty
 
 Luokkien väliset suhteet muodostavat verkkomaisen kaavion:
 
-![pakkauskaavio.jpg]((https://github.com/sonjaheikkinen/ot-harjoitustyo/blob/master/dokumentointi/kuvat/pakkauskaavio.jpg)
+![pakkauskaavio.jpg](https://github.com/sonjaheikkinen/ot-harjoitustyo/blob/master/dokumentointi/kuvat/pakkauskaavio.jpg)
 
 Kaavioon on merkitty pakkaukset, luokkien väliset pysyvät suhteet sekä oleellisin 
 riippuvuussuhde. 
@@ -112,7 +112,7 @@ ruudulle.
 Peliruudun tapahtumista vastaava AnimationTimer-olio kontrolloi pelihahmon hyppäämistä 
 alustalta seuraavasti:
 
-![sekvenssikaavio.jpg](https://github.com/sonjaheikkinen/ot-harjoitustyo/blob/master/dokumentointi/kuvat/sekvenssikaavio.jgp)
+![sekvenssikaavio.jpg](https://github.com/sonjaheikkinen/ot-harjoitustyo/blob/master/dokumentointi/kuvat/sekvenssikaavio.jpg)
 
 Aluksi AnimationTimer kutsuu GameLogic-luokan metodia detectCollission, joka 
 tarkastelee peliobjectien (luokka GameObject) välisiä törmäyksiä. GameLogic 
