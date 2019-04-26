@@ -79,8 +79,6 @@ joiden suhteet muihin luokkiin on kuvattu yllä kohdassa rakenne.
 
 ### Päätoiminnallisuudet
 
-#### Pelaajan asetus
-
 #### Pelin aloitus 
 
 Pelaajan aloittaessa uuden pelin, luodaan uusi instassi luokasta GameScreenHandler. 
@@ -105,9 +103,33 @@ pelitiedot, kuten pelihahmojen sijainnit ja pisteet, sekä luokan sisäistä met
 render, joka sitten piirtää kaikki pelihahmot GameLogicin sisältämien tietojen avulla 
 ruudulle. 
 
-#### Hyppyalustojen liike
+#### Peliobjektien liike
 
-#### Pelihahmon hyppääminen
+Jokaisella GameObject-oliolla on määritelty vaaka- ja pystysuuntainen liike, sekä 
+x- ja y-koordinaatti. Liike tapahtuu kutsumalla metodia update, joka saa parametrinaan 
+edellisestä päivityksestä kuluneet sekunnit, ja joka sitten päivittää olion sijainnin 
+lisäämällä sen x-koordinaattiin x-akselin suuntaisen liikkeen kerrottuna sekunneilla, 
+ja vastaavasti päivitetään myös y-koordinaatti. 
+
+GameObject-olioiden liikettä ohjataan GameLogic-luokan metodeilla, ja liikkeen ohjaus 
+riippuu siitä, mihin GameLogicin luokkamuuttujaan kyseinen olio on tallennettu. 
+Esimerkiksi hyppyalustoja tiputetaan tasaista vauhtia alaspäin, kunnes ne saavuttavat 
+ruudun alareunan, jolloin niiden y-koordinaattia muokataan niin, että ne siirtyvät 
+takaisin ylös, ja x-koordinaatti valitaan satunnaisesti. Ansoille taas arvotaan sekä 
+lähtöpaikka, että erilliset liikenopeudet x- ja y-akselin suuntaisille liikkeille. 
+
+#### Peliobjektien väliset törmäykset
+
+GameObject luokalla on metodi getBoundary, joka palauttaa olion sijaintia ja kokoa 
+vastaavan neliskulmion. Luokan metodi intersects taas vertaa kahden eri 
+GameObject-olion getBoundary-metodien palautusarvoja, ja palauttaa true, jos 
+neliskulmiot ovat edes osittain päällekkäiset. 
+
+GameLogic-luokalla on useita metodeita, jotka hyödyntävät intersects-metodia, ja 
+törmäyksen sattuessa tekevät erilaisia asioita, kuten lisäävät pisteitä tai muuttavat 
+hahmojen sijaintia ja liikettä.
+
+##### Esimerkki: pelihahmon hyppääminen
 
 Peliruudun tapahtumista vastaava AnimationTimer-olio kontrolloi pelihahmon hyppäämistä 
 alustalta seuraavasti:
@@ -127,15 +149,13 @@ hahmoa liikuttava metodi käsittelee sitä hyppäävänä hahmona. Tämän jälk
 vielä alustan Action-arvo. Jos se on false, ei alustalta ole vielä aikaisemmin hypätty. 
 Tällöin lisätään pisteitä ja merkataan alusta käydyksi (Action = true).
 
-#### Pisteiden kerääntyminen 
-
 #### Piilotettu vaikeustaso
 
-#### Ansat 
+Pelissä on piilotettu vaikeustaso. GameLogicilla on luokkamuuttuja level, joka 
+kasvaa tasaisesti pisteiden kerääntyessä. Mitä isompi vaikeustaso, sitä enemmän ansoja 
+pelialueelle generoidaan. Tämä tapahtuu kasvattamalla metodin moveTraps liikuttamien 
+ansojen määrää (paikallaan olevat ansat ovat pelialueen ulkopuolella).
 
-#### Boostit
-
-#### Pelin loppuminen
 
 ## Tietojen pysyväistallennus
 
