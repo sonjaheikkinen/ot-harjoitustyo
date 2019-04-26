@@ -20,5 +20,5 @@
 |21.4.  | 2        | boostit lisätty, refaktorointi, lisää testejä |
 |22.4.  | 1        | javadoc |
 |25.4.  | 2        | javadoc jatkuu, refaktorointi, testien korjaus |
-|26.4.  | 6,5      | javadoc, refaktorointi, testit, arkkitehtuuri, käyttöohje |
-|yht.   | 38       | 
+|26.4.  | 7        | javadoc, refaktorointi, testit, arkkitehtuuri, käyttöohje |
+|yht.   | 54       | 
