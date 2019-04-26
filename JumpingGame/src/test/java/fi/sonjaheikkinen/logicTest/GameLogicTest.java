@@ -25,11 +25,10 @@ public class GameLogicTest {
 
     private GameLogic gameLogic;
     private GameObject character;
-    private GameObject testCharacter;
     private ArrayList<GameObject> platforms;
-    private ArrayList<GameObject> testPlatform;
     private ArrayList<GameObject> traps;
     private GameObject boost;
+    private GameObject testPlatform;
 
     public GameLogicTest() {
     }
@@ -45,14 +44,15 @@ public class GameLogicTest {
     @Before
     public void setUp() {
         this.gameLogic = new GameLogic();
-        this.character = this.gameLogic.createGameCharacter();
-        this.testCharacter = new GameObject(0, 0, 40, 40, 0, 0);
-        this.platforms = this.gameLogic.createPlatforms();
-        GameObject platform = new GameObject(0, 0, 100, 10, 0, 0);
-        this.testPlatform = new ArrayList<>();
-        this.testPlatform.add(platform);
-        this.traps = this.gameLogic.createTraps();
-        this.boost = this.gameLogic.createBoost();
+        this.gameLogic.createGameObjects();
+        this.character = this.gameLogic.getGameCharacter();
+        this.platforms = this.gameLogic.getPlatforms();
+        this.traps = this.gameLogic.getTraps();
+        this.boost = this.gameLogic.getBoost();
+        this.testPlatform = this.platforms.get(0);
+        this.testPlatform.setWidth(70);
+        this.testPlatform.setPositionX(0);
+        this.testPlatform.setPositionY(50);
     }
 
     @After
@@ -104,7 +104,8 @@ public class GameLogicTest {
         this.gameLogic.setLevel(0);
         ArrayList<Double> trapXPositions1 = getTrapPositions("x");
         ArrayList<Double> trapYPositions1 = getTrapPositions("y");
-        this.gameLogic.moveTraps(100, traps);
+        this.gameLogic.setElapsedTimeInSeconds(100);
+        this.gameLogic.moveTraps();
         ArrayList<Double> trapXPositions2 = getTrapPositions("x");
         ArrayList<Double> trapYPositions2 = getTrapPositions("y");
         boolean moved = false;
@@ -124,7 +125,8 @@ public class GameLogicTest {
         this.gameLogic.setLevel(level);
         ArrayList<Double> trapXPositions1 = getTrapPositions("x");
         ArrayList<Double> trapYPositions1 = getTrapPositions("y");
-        this.gameLogic.moveTraps(100, traps);
+        this.gameLogic.setElapsedTimeInSeconds(100);
+        this.gameLogic.moveTraps();
         ArrayList<Double> trapXPositions2 = getTrapPositions("x");
         ArrayList<Double> trapYPositions2 = getTrapPositions("y");
         int moved = 0;
@@ -142,7 +144,8 @@ public class GameLogicTest {
         this.gameLogic.setLevel(17);
         ArrayList<Double> trapXPositions1 = getTrapPositions("x");
         ArrayList<Double> trapYPositions1 = getTrapPositions("y");
-        this.gameLogic.moveTraps(100, traps);
+        this.gameLogic.setElapsedTimeInSeconds(100);
+        this.gameLogic.moveTraps();
         ArrayList<Double> trapXPositions2 = getTrapPositions("x");
         ArrayList<Double> trapYPositions2 = getTrapPositions("y");
         int moved = 0;
@@ -172,7 +175,8 @@ public class GameLogicTest {
 
     @Test
     public void moveCharacterSetsCharacterVelocityYCorrecltyIfCharacterJumpStateFalse() {
-        this.gameLogic.moveCharacter(0, character);
+        this.gameLogic.setElapsedTimeInSeconds(0);
+        this.gameLogic.moveCharacter();
         assertTrue(this.character.getVelocityY() == 500);
     }
 
@@ -180,7 +184,8 @@ public class GameLogicTest {
     public void moveCharacterChangesVelocityDowndWardsCorrectlyIfCharacterJumpStateTrue() {
         this.character.setAction(true);
         this.character.setVelocityY(-500);
-        this.gameLogic.moveCharacter(0, character);
+        this.gameLogic.setElapsedTimeInSeconds(0);
+        this.gameLogic.moveCharacter();
         assertTrue(this.character.getVelocityY() == -480);
     }
 
@@ -188,7 +193,8 @@ public class GameLogicTest {
     public void moveCharacterSetsCharacterJumpStateFalseWhenCharacterReachesFallingSpeed() {
         this.character.setAction(true);
         this.character.setVelocityY(480);
-        this.gameLogic.moveCharacter(0, character);
+        this.gameLogic.setElapsedTimeInSeconds(0);
+        this.gameLogic.moveCharacter();
         assertFalse(this.character.getAction());
     }
 
@@ -196,66 +202,73 @@ public class GameLogicTest {
     public void moveCharacterSetsCharacterVelocityYFallingSpeedIfCharacterFallsTooFastInJump() {
         this.character.setAction(true);
         this.character.setVelocityY(490);
-        this.gameLogic.moveCharacter(0, character);
+        this.gameLogic.setElapsedTimeInSeconds(0);
+        this.gameLogic.moveCharacter();
         assertTrue(this.character.getVelocityY() == 500);
     }
 
     @Test
     public void movePlatformDropsPlatformRigthAmountPerSecond() {
-        this.gameLogic.movePlatforms(1, testPlatform);
-        assertTrue(this.testPlatform.get(0).getPositionY() == 100);
+        this.gameLogic.setElapsedTimeInSeconds(1);
+        this.gameLogic.movePlatforms();
+        assertTrue(this.testPlatform.getPositionY() == 150);
     }
 
     @Test
     public void movePlatformLiftsPlatformUpWhenPlatformReachesBottom() {
-        this.testPlatform.get(0).setPositionY(500);
-        this.gameLogic.movePlatforms(0, testPlatform);
-        assertTrue(this.testPlatform.get(0).getPositionY() == -10);
+        this.testPlatform.setPositionY(600);
+        this.gameLogic.setElapsedTimeInSeconds(0);
+        this.gameLogic.movePlatforms();
+        assertTrue(this.testPlatform.getPositionY() == -10);
     }
 
     @Test
     public void detectCollissionSetsCharacterJumpStateTrueIfCharacterTouchesPlatform() {
-        this.testPlatform.get(0).setPositionY(39);
-        this.gameLogic.detectCollissionWithPlatforms(testCharacter, testPlatform);
-        assertTrue(this.testCharacter.getAction());
+        this.character.setPositionY(50);
+        this.character.setPositionX(0);
+        this.gameLogic.detectCollissionWithPlatforms();
+        assertTrue(this.character.getAction());
     }
 
     @Test
     public void detectCollissionSetsCharacterVelocityYCorrecltyIfCharacterTouchesPlatform() {
-        this.testPlatform.get(0).setPositionY(39);
-        this.gameLogic.detectCollissionWithPlatforms(testCharacter, testPlatform);
-        assertTrue(this.testCharacter.getVelocityY() == -500);
+        this.character.setPositionY(50);
+        this.character.setPositionX(0);
+        this.gameLogic.detectCollissionWithPlatforms();
+        assertTrue(this.character.getVelocityY() == -500);
     }
 
     @Test
     public void detectCollissionDoesNotMakeCharacterJumpIfCharacterAlreadyGoingUp() {
-        this.testPlatform.get(0).setPositionY(39);
-        this.testCharacter.setVelocityY(-10);
-        this.gameLogic.detectCollissionWithPlatforms(testCharacter, testPlatform);
-        assertTrue(testCharacter.getVelocityY() == -10);
+        this.character.setPositionY(50);
+        this.character.setPositionX(0);
+        this.character.setVelocityY(-10);
+        this.gameLogic.detectCollissionWithPlatforms();
+        assertTrue(this.character.getVelocityY() == -10);
     }
-    
+
     @Test
     public void boostInitialActionStateFalse() {
         assertFalse(this.boost.getAction());
     }
-    
+
     @Test
     public void boostActionStateTrueAfterCollidingWithCharacter() {
-        this.testCharacter.setPositionX(100);
-        this.testCharacter.setPositionY(100);
+        this.character.setPositionX(100);
+        this.character.setPositionY(100);
         this.boost.setPositionX(101);
         this.boost.setPositionY(101);
-        this.gameLogic.detectCollissionWithBoost(this.testCharacter, this.boost);
+        this.gameLogic.detectCollissionWithBoost();
         assertTrue(this.boost.getAction());
     }
-    
+
     @Test
     public void moveBoostMovesBoostOffScreenWhenActionStateTrue() {
         this.boost.setAction(true);
         this.boost.setPositionX(100);
         this.boost.setPositionY(100);
-        this.gameLogic.moveBoost(100, boost);
+        this.gameLogic.setElapsedTimeInSeconds(100);
+        this.gameLogic.moveBoost();
         boolean offScreen = false;
         if (this.boost.getPositionX() < 0 || this.boost.getPositionX() > 400
                 || this.boost.getPositionY() < 0 || this.boost.getPositionY() > 500) {

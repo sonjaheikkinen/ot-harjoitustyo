@@ -2,13 +2,110 @@
 
 ## Rakenne
 
+Ohjelman pakkausrakenne on yksinkertainen. Hierarkian ylimpänä on graafisen 
+käyttöliittymän muodostava pakkaus gui. Seuraavalla tasolla ovat laskennan suorittava 
+pakkaus logic, ja sekalaista sälää sisältävä pakkaus other. Kolmannella tasolla ovat 
+vielä logic-pakkauksen käyttämät pakkaukset filehandling, joka nimensä mukaisesti 
+käsittelee tiedonsiirtoa tiedostojen ja ohjelman välillä, sekä domain, joka sisältää 
+pelin "käsitteet". Pakkausrakenne on kuvattu alla olevassa kaaviossa. Kaikki pakkaukset 
+ovat pakkauksen fi.sonjaheikkinen sisällä, vaikkei sitä ole kaavion piirretty.
+
+![pakkausrakenne.jpg](https://github.com/sonjaheikkinen/ot-harjoitustyo/blob/master/dokumentointi/kuvat/pakkausrakenne.jpg)
+
+Luokkien väliset suhteet muodostavat verkkomaisen kaavion:
+
+![pakkauskaavio.jpg]((https://github.com/sonjaheikkinen/ot-harjoitustyo/blob/master/dokumentointi/kuvat/pakkauskaavio.jpg)
+
+Kaavioon on merkitty pakkaukset, luokkien väliset pysyvät suhteet sekä oleellisin 
+riippuvuussuhde. 
+
+### gui
+
+Pakkaus gui rakentaa graafisen käyttöliittymän. Se sisältää neljä luokkaa. Ohjelman 
+käynnistää luokka JumpingGameGui, joka alustaa ohjelmalogiikan, ja ryhtyy sitten 
+rakentamaan sen pohjalta käyttöliittymää. Se luo oliot luokista SceneConstructor ja 
+StageHandler. SceneConstructor vastaa yksittäisten näkymien, scenejen, luomisesta, kun 
+taas stageHandler hallitsee scenejen asettamiseen näkyväksi ikkunaan, stageen. Jos 
+ikkunassa on pelinäkymä, vastaa luokka GameScreenHandler kommunikoinnista pelilogiikan 
+kanssa ja pelitapahtumien piirtämisestä ruudulle. Luokat JumpingGameGui, 
+SceneConstructor ja GameScreenHandler käyttävät hyödykseen myös ProgramLogic-oliota, 
+jolta ne saavat erilaisia tietoja, kuten tämänhetkisen high score -listauksen 
+piirrettäväksi ruudulle. 
+
+### other
+
+Pakkaus other sisältää vain yhden luokan, LongValue, joka kapsuloi long-tyyppisen 
+muuttujan, jotta sitä voidaan käyttää luokan animationTimer sisällä. 
+
+### logic
+
+Pakkaus logic sisältää kaksi luokkaa: ohjelmalogiikasta vastaavan luokan ProgramLogic 
+ja pelilogiikasta vastaavan luokan gameLogic. ProgramLogic kommunikoi käyttöliittymän 
+ja filehandlerin kanssa ja sen päätehtävänä on pitää kirjaa kulloisenkin peli-instassin 
+tiedoista ja päivittää high score -listausta. GameLogic kommunikoi luokan 
+GameScreenHandler ja pakkauksen domain kanssa. Se ohjaa yksittäisen peli-instassin 
+toimintaa, ja luodaan aina uudestaan uuden pelin käynnistyessä. 
+
+### filehandling
+
+Pakkauksen filehandling luokka highScoreHandler vastaa pistetietojen kirjaamisesta 
+tiedostoon ja niiden noutamisesta sieltä.
+
+###  domain
+
+Pakkaus domain sisältää luokan GameObject. Jokainen luokan instanssi vastaa yksittäistä 
+pelioliota, "spritea", joiden liikkeitä ja muutoksia kontrolloi luokka GameLogic.
+
 ## Käyttöliittymä
+
+Käyttöliittymä sisältää kuusi näkymää.
+
+- aloitusnäkymä
+- uuden pelin aloitus
+- pelinäkymä
+- pelin loppumisnäkymä
+- peliohjeet
+- high score
+
+Jokainen näkymä on toteutettu omana scene-olionaan, ja vain yksi näkymä on kerrallaan 
+sijoitettuna stageen. Pelinäkymä, pelin loppumisnäkymä ja high score generoidaan 
+uudestaan joka kutsumiskerralla vastaamaan ohjelma- ja pelilogiikassa kutsumishetkellä 
+olevia tietoja. 
 
 ## Sovelluslogiikka
 
-![alustavaPakkauskaavio.jpg](https://github.com/sonjaheikkinen/ot-harjoitustyo/blob/master/dokumentointi/kuvat/alustavaPakkauskaavio.jpg)
+Sovelluslogiikan pohjan muodostavat luokat ProgamLogic, GameLogic ja GameObject, 
+joiden suhteet muihin luokkiin on kuvattu yllä kohdassa rakenne. 
 
 ### Päätoiminnallisuudet
+
+#### Pelaajan asetus
+
+#### Pelin aloitus 
+
+Pelaajan aloittaessa uuden pelin, luodaan uusi instassi luokasta GameScreenHandler. 
+GameScreenHandler luo uuden instassin luokasta GameLogic, ja kutsuu GameLogicin 
+metodia, joka luo peliruudulla liikkuvat GameObjectit. Tämän jälkeen kutsutaan 
+metodia updateGame, joka huolehtii pelin tapahtumien päivityksestä GameScreenHandlerin 
+hallinnoimalle canvas-oliolle. 
+
+#### Pelin päivitys
+
+Metodi updateGame kutsuu metodeja handleMouseMovement ja handleAnimation. 
+
+HandleMouseMovement kuuntelee hiirten liikkeitä, ja kutsuu GameLogicia, joka 
+siirtää pelattavan hahmon x-koordinaatin vastaamaan hiiren x-koordinaattia. 
+
+HandleAnimation luo instassin luokasta AnimationTimer, ja sen metodia handle 
+säännöllisin väliajoin. Handle puolestaan kutsuu GameScreenHandlerin metodia 
+updateGameScreen.
+
+UpdateGameScreen kutsuu GameLogicin metodia updateGame, joka päivittää kaikki
+pelitiedot, kuten pelihahmojen sijainnit ja pisteet, sekä luokan sisäistä metodia 
+render, joka sitten piirtää kaikki pelihahmot GameLogicin sisältämien tietojen avulla 
+ruudulle. 
+
+#### Hyppyalustojen liike
 
 #### Pelihahmon hyppääminen
 
@@ -30,6 +127,31 @@ hahmoa liikuttava metodi käsittelee sitä hyppäävänä hahmona. Tämän jälk
 vielä alustan Action-arvo. Jos se on false, ei alustalta ole vielä aikaisemmin hypätty. 
 Tällöin lisätään pisteitä ja merkataan alusta käydyksi (Action = true).
 
+#### Pisteiden kerääntyminen 
+
+#### Piilotettu vaikeustaso
+
+#### Ansat 
+
+#### Boostit
+
+#### Pelin loppuminen
+
 ## Tietojen pysyväistallennus
 
 ### Tiedostot
+
+Sovellus tallettaa high score -listan tiedostoon aina sovelluksen sulkeutuessa, ja 
+hakee sen sieltä sovelluksen taas avautuessa. Tiedostojen käsittelystä vastaa luokka 
+highScoreHandler. Ohjelma tarvitsee tietojen säilytyksen ainoastaan yhden 
+tekstitiedoston, jossa jokainen tallennettu pistetieto on omalla rivillään. 
+
+Tietojen formaatti: 
+
+```
+pelaajannimimerkki:000
+```
+
+Tiedoissa on siis kaksi kenttää. Ensimmäinen kenttä sisältää pelaajan nimimerkin, 
+joka saa sisältää numeroita tai kirjaimia. Toinen kenttä sisältää tallennetut 
+pisteet numerointa. Kentät on erotettu kaksoispisteellä. 

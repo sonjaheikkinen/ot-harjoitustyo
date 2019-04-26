@@ -1,14 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package fi.sonjaheikkinen.gui;
 
 import fi.sonjaheikkinen.domain.GameObject;
 import fi.sonjaheikkinen.logic.GameLogic;
 import fi.sonjaheikkinen.logic.ProgramLogic;
-import java.util.ArrayList;
 import javafx.animation.AnimationTimer;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -17,8 +12,7 @@ import fi.sonjaheikkinen.other.LongValue;
 import javafx.scene.text.Text;
 
 /**
- *
- * @author sonja
+ * Luokka ohjaa ruudulla näkyviä elementtejä pelin ollessa käynnissä.
  */
 public class GameScreenHandler {
 
@@ -28,6 +22,7 @@ public class GameScreenHandler {
     private StageHandler stageHandler;
     private Text gameInfo;
     private ProgramLogic pLogic;
+    private GraphicsContext gc;
 
     public GameScreenHandler(Canvas canvas, Scene scene, Text gameInfo, StageHandler handler, ProgramLogic pLogic) {
         this.game = scene;
@@ -36,122 +31,141 @@ public class GameScreenHandler {
         this.stageHandler = handler;
         this.gameInfo = gameInfo;
         this.pLogic = pLogic;
+        this.gc = canvas.getGraphicsContext2D();
+        this.gLogic.createGameObjects();
     }
 
+    /**
+     * Metodi kutsuu metodeita handleMouseMovement, joka hoitaa hiiren liikkeiden kuuntelun, ja handleAnimation, joka 
+     * hoitaa pelinäkymän päivittämisen ruudulle.
+     */
     public void updateGame() {
-        GraphicsContext gc = canvas.getGraphicsContext2D();
-        GameObject gameCharacter = this.gLogic.createGameCharacter();
-        ArrayList<GameObject> platforms = this.gLogic.createPlatforms();
-        ArrayList<GameObject> traps = this.gLogic.createTraps();
-        GameObject boost = this.gLogic.createBoost();
-        handleMouseMovement(game, gameCharacter);
-        handleAnimation(gc, gameCharacter, platforms, traps, boost);
+        handleMouseMovement();
+        handleAnimation();
     }
 
-    public static void handleMouseMovement(Scene game, GameObject character) {
-        game.setOnMouseMoved((event) -> {
+    /**
+     * Metodi kuuntelee käyttäjän hiiren liikkeitä ja siirtelee ruudulla
+     * liikkuvaa pelihahmoa niiden mukaisesti sivusuunnassa.
+     */
+    public void handleMouseMovement() {
+        this.game.setOnMouseMoved((event) -> {
             double mouseX = event.getSceneX();
-            character.setPositionX(mouseX);
+            this.gLogic.getGameCharacter().setPositionX(mouseX);
         });
     }
 
-    public void handleAnimation(GraphicsContext gc, GameObject gameCharacter, ArrayList<GameObject> platforms,
-            ArrayList<GameObject> traps, GameObject boost) {
+    /**
+     * Metodi luo AnimationTimer-olion ja kutsuu sen metodia handle, joka vastaa
+     * GameObject-olioden sijainnista suhteessa kuluneeseen aikaan.
+     * AnimationTimer pysähtyy ja kutsuu StopGame-metodia pelaajan tipahtaessa
+     * peliruudun alapuolelle. Muuna aikana se kutsuu säännöllisin väliajoin
+     * metodia updateGameScreen, joka hoitaa varsinaisen peliruudun
+     * päivittämisen.
+     */
+    public void handleAnimation() {
         LongValue lastNanoTime = new LongValue(System.nanoTime());
-        GameLogic gameLogic = this.gLogic;
-        ProgramLogic programLogic = this.pLogic;
-        StageHandler handler = this.stageHandler;
-        Text info = this.gameInfo;
+        GameObject character = this.gLogic.getGameCharacter();
         new AnimationTimer() {
             @Override
             public void handle(long currentNanoTime) {
-                if (gameCharacter.getPositionY() > 500) {
-                    stopGame(programLogic, gameLogic, handler);
+                if (character.getPositionY() > 500) {
+                    stopGame();
                     this.stop();
                 } else {
-                    updateGameScreen(currentNanoTime, lastNanoTime, gameLogic, gameCharacter, platforms, traps, boost,
-                            info, gc);
+                    updateGameScreen(currentNanoTime, lastNanoTime);
                 }
             }
         }.start();
     }
 
-    public void stopGame(ProgramLogic programLogic, GameLogic gameLogic, StageHandler handler) {
-        programLogic.updatePoints(gameLogic);
-        programLogic.updateHighScore();
-        handler.gameOver();
+    /**
+     * Metodi hoitaa pelitietojen päivittämisen pelin päättyessä. Se kutsuu
+     * ProgramLogicin metodeita päivittämään pisteet ja high score -listauksen,
+     * sekä StageHandlerin metodia GameOver, joka valitsee ruudulle
+     * näytettäväksi seuraavan skenaarion pelin päättyessä.
+     */
+    public void stopGame() {
+        this.pLogic.updatePoints(this.gLogic);
+        this.pLogic.updateHighScore();
+        this.stageHandler.gameOver();
     }
 
-    public void updateGameScreen(long currentNanoTime, LongValue lastNanoTime, GameLogic gameLogic, GameObject gameCharacter,
-            ArrayList<GameObject> platforms, ArrayList<GameObject> traps, GameObject boost, Text gameInfo,
-            GraphicsContext gc) {
-        double elapsedTimeInSeconds = calculateElapsedTime(lastNanoTime, currentNanoTime);
-        moveGameObjects(elapsedTimeInSeconds, gameLogic, gameCharacter, platforms, traps, boost);
-        detectCollission(gameLogic, gameCharacter, platforms, traps, boost);
-        gameLogic.handleLevel();
-        gameInfo.setText("Points: \n" + gameLogic.getPoints() + "\nLives: \n" + gameLogic.getLives());
-        render(gc, gameCharacter, platforms, traps, boost);
+    /**
+     * Metodi päivittää peliruudun näkymää. Aluksi päivitetään pelitiedot kutsumalla gameLogicin metodia updateGame. 
+     * Sen jälkeen ruudulle päivitetään pistetiedot ja GameObjectit piirretään ruudulle kutsumalla metodia render.
+     *
+     * @param currentNanoTime tämänhetkinen aika nanosekunneissa
+     * @param lastNanoTime edellisen päivityksen aika nanosekunneissa
+     */
+    public void updateGameScreen(long currentNanoTime, LongValue lastNanoTime) {
+        this.gLogic.updateGame(currentNanoTime, lastNanoTime);
+        this.gameInfo.setText("Points: \n" + this.gLogic.getPoints() + "\nLives: \n" + this.gLogic.getLives());
+        render();
     }
 
-    public double calculateElapsedTime(LongValue lastNanoTime, long currentNanoTime) {
-        double elapsedTime = (currentNanoTime - lastNanoTime.getValue()) / 1000000000.0;
-        lastNanoTime.setValue(currentNanoTime);
-        return elapsedTime;
+    /**
+     * Metodi määrittää piirtovärin valkoiseksi, tyhjentää ruudun, ja kutsuu
+     * sitten muita metodeja, jotka maalaavat pelissä mukana olevat
+     * GameObject-oliot ikkunaan.
+     */
+    public void render() {
+        this.gc.setFill(javafx.scene.paint.Color.WHITE);
+        this.gc.clearRect(0, 0, 400, 500);
+        renderCharacter();
+        renderPlatforms();
+        renderTraps();
+        renderBoost();
     }
 
-    public void moveGameObjects(double elapsedTimeInSeconds, GameLogic gameLogic, GameObject gameCharacter,
-            ArrayList<GameObject> platforms, ArrayList<GameObject> traps, GameObject boost) {
-        gameLogic.moveCharacter(elapsedTimeInSeconds, gameCharacter);
-        gameLogic.movePlatforms(elapsedTimeInSeconds, platforms);
-        gameLogic.moveTraps(elapsedTimeInSeconds, traps);
-        gameLogic.moveBoost(elapsedTimeInSeconds, boost);
-    }
-
-    public void detectCollission(GameLogic gameLogic, GameObject gameCharacter, ArrayList<GameObject> platforms,
-            ArrayList<GameObject> traps, GameObject boost) {
-        gameLogic.detectCollissionWithPlatforms(gameCharacter, platforms);
-        gameLogic.detectDeathOnTrap(gameCharacter, traps);
-        gameLogic.detectCollissionWithBoost(gameCharacter, boost);
-    }
-
-    public void render(GraphicsContext gc, GameObject gameCharacter, ArrayList<GameObject> platforms,
-            ArrayList<GameObject> traps, GameObject boost) {
-        gc.setFill(javafx.scene.paint.Color.WHITE);
-        gc.clearRect(0, 0, 400, 500);
-        renderCharacter(gc, gameCharacter);
-        renderPlatforms(gc, platforms);
-        renderTraps(gc, traps);
-        renderBoost(gc, boost);
-    }
-
-    public void renderCharacter(GraphicsContext gc, GameObject gameCharacter) {
-        double characterX = gameCharacter.getPositionX();
+    /**
+     * Metodi maalaa liikutettavan pelihahmon kohdalle neliön, jonka vasen
+     * yläkulma on olion kulloisenkin sijainnin mukainen, ja koko vastaa oliolle
+     * määriteltyä leveyttä ja korkeutta. Jos pelihahmon sijainti on ruudun
+     * sivureunojen ulkopuolella, maalataan hahmo lähimpään reunaan.
+     */
+    public void renderCharacter() {
+        GameObject character = this.gLogic.getGameCharacter();
+        double characterX = character.getPositionX();
         if (characterX < 0) {
             characterX = 0;
         } else if (characterX > 360) {
             characterX = 360;
         }
-        gc.fillRect(characterX, gameCharacter.getPositionY(), gameCharacter.getWidth(), gameCharacter.getHeight());
+        gc.fillRect(characterX, character.getPositionY(), character.getWidth(), character.getHeight());
     }
 
-    public void renderPlatforms(GraphicsContext gc, ArrayList<GameObject> platforms) {
-        for (GameObject platform : platforms) {
-            gc.fillRect(platform.getPositionX(), platform.getPositionY(), platform.getWidth(), platform.getHeight());
+    /**
+     * Metodi käy läpi listan hyppyalustoja, ja maalaa niiden sijaintia ja kokoa
+     * vastaavat nelikulmiot ruudulle.
+     */
+    public void renderPlatforms() {
+        for (GameObject platform : this.gLogic.getPlatforms()) {
+            this.gc.fillRect(platform.getPositionX(), platform.getPositionY(), platform.getWidth(), platform.getHeight());
         }
     }
 
-    public void renderTraps(GraphicsContext gc, ArrayList<GameObject> traps) {
-        for (GameObject trap : traps) {
-            gc.fillOval(trap.getPositionX(), trap.getPositionY(), trap.getWidth(), trap.getHeight());
+    /**
+     * Metodi käy läpi ansalistan, ja maalaa jokaisen ansan kohdalle ympyrän,
+     * jonka koko ja sijainti vastaavat ansan kokoa ja sijaintia.
+     */
+    public void renderTraps() {
+        for (GameObject trap : this.gLogic.getTraps()) {
+            this.gc.fillOval(trap.getPositionX(), trap.getPositionY(), trap.getWidth(), trap.getHeight());
         }
     }
 
-    public void renderBoost(GraphicsContext gc, GameObject boost) {
+    /**
+     * Metodi maalaa boostin kohdalle boostin sijaintia ja kokoa vastaavan
+     * ylöspäinosoittavan kolmion.
+     */
+    public void renderBoost() {
+        GameObject boost = this.gLogic.getBoost();
         double posX = boost.getPositionX();
         double posY = boost.getPositionY();
         double w = boost.getWidth();
         double h = boost.getHeight();
-        gc.fillPolygon(new double[]{posX, posX + w, posX + (w / 2)}, new double[]{posY, posY, posY - h}, 3);
+        this.gc.fillPolygon(new double[]{posX, posX + w, posX + (w / 2)}, new double[]{posY, posY, posY - h}, 3);
     }
 
 }

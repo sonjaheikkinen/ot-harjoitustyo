@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package fi.sonjaheikkinen.gui;
 
 import fi.sonjaheikkinen.logic.ProgramLogic;
@@ -18,10 +14,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
-/**
- *
- * @author sonja
- */
 public class SceneConstructor {
 
     private Scene startScene;

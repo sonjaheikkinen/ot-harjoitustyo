@@ -20,7 +20,7 @@ import static org.junit.Assert.*;
  */
 public class ProgramLogicTest {
     
-    private ProgramLogic pInfo;
+    private ProgramLogic pLogic;
     
     public ProgramLogicTest() {
     }
@@ -35,10 +35,9 @@ public class ProgramLogicTest {
     
     @Before
     public void setUp() {
-        this.pInfo = new ProgramLogic();
-        this.pInfo.setPoints(0);
-        this.pInfo.setCurrentPlayer("test");
-        this.pInfo.setScoreInfo(new ArrayList<>());
+        this.pLogic = new ProgramLogic();
+        this.pLogic.setPoints(0);
+        this.pLogic.setCurrentPlayer("test");        
     }
     
     @After
@@ -47,24 +46,24 @@ public class ProgramLogicTest {
     
     @Test
     public void highScoreListGrowsWhenUpdatingIfSizeUnder10() {
-        int size1 = this.pInfo.getScoreInfo().size();
-        this.pInfo.updateHighScore();
-        int size2 = this.pInfo.getScoreInfo().size();
+        int size1 = this.pLogic.getScoreInfo().size();
+        this.pLogic.updateHighScore();
+        int size2 = this.pLogic.getScoreInfo().size();
         assertTrue(size2 > size1);
     }
     
     @Test
     public void highScreListDoesNotGrowWhenUpdatingIfSizeIs10() {
         for (int i = 0; i < 11; i++) {
-            this.pInfo.updateHighScore();
+            this.pLogic.updateHighScore();
         }
-        assertTrue(this.pInfo.getScoreInfo().size() == 10);        
+        assertTrue(this.pLogic.getScoreInfo().size() == 10);        
     }
     
     @Test
     public void highScoreListPrintsCorrectly() {
-        this.pInfo.updateHighScore();
-        assertEquals("1. test, 0 points\n", this.pInfo.getHighScoreString());
+        this.pLogic.updateHighScore();
+        assertEquals("1. test, 0 points\n", this.pLogic.getHighScoreString());
     }
 
      

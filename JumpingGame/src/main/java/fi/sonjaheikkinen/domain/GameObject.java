@@ -1,15 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package fi.sonjaheikkinen.domain;
 
 import javafx.geometry.Rectangle2D;
 
 /**
- *
- * @author sonja
+ * Luokka toimii pohjana erilaisille pelin olioille, kuten pelihahmolle, ansoille ja hyppyalustoille. Kaikkia näitä 
+ * varten riittää yksi luokka, koska niillä kaikilla on samat perusominaisuudet: koko, sijainti, liike, ja jokin toiminto.
  */
 public class GameObject {
 
@@ -19,6 +15,14 @@ public class GameObject {
     private double velocityY;
     private double width;
     private double height;
+    /**
+     * Muuttujan action rooli vaihtelee sen mukaan, mitä roolia kyseessä oleva olio palvelee pelissä. Pelihahmolla 
+     * action-muuttuja on true, jos pelihahmo on hyppäämässä, ja muuten false. Hyppyalustalla action on true siitä hetkestä 
+     * lähtien, kun pelihahmo on osunut hyppyalustaan, ja muutetaan takaisin falseksi vain kun alusta nollataan sen tippuessa
+     * ruudun alapuolelle. Ansalla action on true kun ansa on juuri luotu, jotta pelilogiikka tietä määrittää sille koon, 
+     * sijainnin ja liikkeen. Boostilla action on true jos pelaaja on osunut boostiin, ja se asetetaan takaisin falseksi 
+     * kun boost nollataan ja sille arvotaan uusi paikka. 
+     */
     private boolean action;
 
     public GameObject(double x, double y, double width, double height, double velocityX, double velocityY) {
@@ -31,19 +35,43 @@ public class GameObject {
         this.action = false;
     }
 
+    /**
+     * Metodi päivittää objektin sijaintia suhteessa sen liikkeeseen ja edellisestä päivityskerrasta kuluneeseen aikaan.
+     * Se lisää objektin x-koordinaattiin x-akselin suhtaisen liikkeen kerrottuna kuluneilla sekunneilla, ja 
+     * y-koordinaattiin vastaavasti y-akselin suhtaisen liikkeen kerrottuna kuluneilla sekunneilla. 
+     * 
+     * @param time edellisestä päivityksestä kuluneet sekunnit 
+     */
     public void update(double time) {
         positionX += velocityX * time;
         positionY += velocityY * time;
     }
 
+    /**
+     * Metodi palauttaa neliskulmion, jonka sijainti, leveys ja korkeus vastaavat pelioliota. 
+     * @return Rectangle2D-olio
+     */
     public Rectangle2D getBoundary() {
         return new Rectangle2D(positionX, positionY, width, height);
     }
 
-    public boolean intersects(GameObject s) {
-        return s.getBoundary().intersects(this.getBoundary());
+    /**
+     * Metodi vertaa keskenään kahta GameObject-oliota, ja tarkistaa, törmäävätkö ne keskenään. Tämän se tekee 
+     * hakemalla molempia olioita vastaavat Rectangle2D-oliot metodin getBoundary avulla, ja hyödyntämällä sitten
+     * rectangle2D:n metodia intersects, joka palauttaa true, jos nelikulmiot osuvat toisiinsa. 
+     * 
+     * @param other GameObject-olio, jonka rajoihin nykyisen olion rajoja verrataan
+     * @return true, jos oliot törmäävät, muuten false
+     */
+    public boolean intersects(GameObject other) {
+        return other.getBoundary().intersects(this.getBoundary());
     }
 
+    /**
+     * Muuttaa olion liikettä lisäämällä tai vähentämällä sen liike-muuttujia anneituilla parametreilla
+     * @param x x-akselin suuntainen liikkeenmuutos
+     * @param y y-akselin suuntainen liikkeenmuutos
+     */
     public void changeVelocity(double x, double y) {
         velocityX += x;
         velocityY += y;
