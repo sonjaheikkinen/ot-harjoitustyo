@@ -19,6 +19,8 @@ Peliä vaikeuttavat tappavat ansat, joilta voi suojautua lisäelämillä.
 
 ## Releaset
 
+[Loppupalautus](https://github.com/sonjaheikkinen/ot-harjoitustyo/releases/tag/viikko7)
+
 [Viikko 6](https://github.com/sonjaheikkinen/ot-harjoitustyo/releases/tag/viikko6)
 
 [Viikko 5](https://github.com/sonjaheikkinen/ot-harjoitustyo/releases/tag/viikko5)
@@ -78,7 +80,7 @@ määrittelemät tarkistukset suoritetaan komennolla
 mvn jxr:jxr checkstyle:checkstyle
 ```
 
-Mahdolliset virheilmoiukset selviävät avaamalla selaimella tiedosto 
+Mahdolliset virheilmoitukset selviävät avaamalla selaimella tiedosto 
 *target/site/checkstyle.html*
 
 ### Javadoc
