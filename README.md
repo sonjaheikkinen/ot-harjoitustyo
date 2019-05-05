@@ -2,9 +2,8 @@
 
 Harjoitustyön aiheena on pelisovellus, jossa hiirtä liikuttelemalla hypätään alustalta 
 toiselle ja yritetään olla tippumatta. Pelaaja saa pisteitä hypätessään ensimmäisen 
-kerran hyppyalustalta, ja kymmenen parasta tulosta tallennetaan highScore-listaan.
-Jatkossa peliä on tarkoitus kehittää jonkinlaisilla pistebuusteilla, liikkuvilla 
-alustoilla tms. lisäominaisuuksilla.
+kerran hyppyalustalta, ja parhaat tulokset talletetaan käyttäjän tarkasteltavaksi. 
+Peliä vaikeuttavat tappavat ansat, joilta voi suojautua lisäelämillä. 
 
 ## Dokumentaatio
 
@@ -13,6 +12,8 @@ alustoilla tms. lisäominaisuuksilla.
 [Arkkitehtuurikuvaus](https://github.com/sonjaheikkinen/ot-harjoitustyo/blob/master/dokumentointi/arkkitehtuuri.md)
 
 [Käyttöohje](https://github.com/sonjaheikkinen/ot-harjoitustyo/blob/master/kayttoohje.md)
+
+[Testausdokumentti](https://github.com/sonjaheikkinen/ot-harjotustyo/blob/master/testaus.md)
 
 [Työaikakirjanpito](https://github.com/sonjaheikkinen/ot-harjoitustyo/blob/master/dokumentointi/tyoaikakirjanpito.md)
 

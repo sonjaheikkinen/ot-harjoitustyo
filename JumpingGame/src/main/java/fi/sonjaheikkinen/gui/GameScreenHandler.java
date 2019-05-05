@@ -16,13 +16,13 @@ import javafx.scene.text.Text;
  */
 public class GameScreenHandler {
 
-    private Scene game;
-    private Canvas canvas;
-    private GameLogic gLogic;
-    private StageHandler stageHandler;
-    private Text gameInfo;
-    private ProgramLogic pLogic;
-    private GraphicsContext gc;
+    private final Scene game;
+    private final Canvas canvas;
+    private final GameLogic gLogic;
+    private final StageHandler stageHandler;
+    private final Text gameInfo;
+    private final ProgramLogic pLogic;
+    private final GraphicsContext gc;
 
     public GameScreenHandler(Canvas canvas, Scene scene, Text gameInfo, StageHandler handler, ProgramLogic pLogic) {
         this.game = scene;
@@ -81,13 +81,12 @@ public class GameScreenHandler {
 
     /**
      * Metodi hoitaa pelitietojen päivittämisen pelin päättyessä. Se kutsuu
-     * ProgramLogicin metodeita päivittämään pisteet ja high score -listauksen,
+     * ProgramLogicin metodia päivittämän pisteet tietokantaan,
      * sekä StageHandlerin metodia GameOver, joka valitsee ruudulle
      * näytettäväksi seuraavan skenaarion pelin päättyessä.
      */
     public void stopGame() {
         this.pLogic.updatePoints(this.gLogic);
-        this.pLogic.updateHighScore();
         this.stageHandler.gameOver();
     }
 

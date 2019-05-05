@@ -21,4 +21,7 @@
 |22.4.  | 1        | javadoc |
 |25.4.  | 2        | javadoc jatkuu, refaktorointi, testien korjaus |
 |26.4.  | 7        | javadoc, refaktorointi, testit, arkkitehtuuri, käyttöohje |
-|yht.   | 54       | 
+|3.5.   | 4        | tiedon tallennus tietokantaan, tunnukset ja kirjautuminen |
+|4.5.   | 6        | ohjelman ja testien korjailu, css-säätöä, dokumenttien kirjoitusta |
+|5.5.   | 6        | testien lisäys, refaktorointi, dokumentaatio, viimeistely |
+|yht.   | 70       | 

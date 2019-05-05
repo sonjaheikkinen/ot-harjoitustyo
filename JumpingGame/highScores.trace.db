@@ -1,0 +1,9 @@
+05-03 17:40:01 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "SCORES" not found; SQL statement:
+SELECT TOP 10 name, points FROM Scores ORDER BY points DESC [42102-176]
+05-03 19:15:21 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "CREATE TABLE USERS(ID SERIAL, NAME VARCHAR(32), PASSWORD VARCHAR(64);[*] "; expected "FOR, UNSIGNED, NOT, NULL, AS, DEFAULT, GENERATED, NOT, NULL, AUTO_INCREMENT, BIGSERIAL, SERIAL, IDENTITY, NULL_TO_DEFAULT, SEQUENCE, SELECTIVITY, COMMENT, CONSTRAINT, PRIMARY, UNIQUE, NOT, NULL, CHECK, REFERENCES, ,, )"; SQL statement:
+CREATE TABLE Users(id serial, name varchar(32), password varchar(64); [42001-176]
+05-03 19:16:32 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "SELECT NAME, PASSWORD FROM USERS WHERE NAME = ?,[*] PASSWORD = ? "; SQL statement:
+SELECT name, password FROM Users WHERE name = ?, password = ? [42000-176]

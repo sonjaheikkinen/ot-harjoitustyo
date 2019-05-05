@@ -30,3 +30,7 @@ VBox, HBox {
 	-fx-padding : 30;
 }
 
+GridPane {
+	-fx-vgap : 20;
+	-fx-hgap : 10;
+}

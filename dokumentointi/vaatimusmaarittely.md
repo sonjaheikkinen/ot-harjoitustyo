@@ -2,49 +2,56 @@
 
 ## Sovelluksen tarkoitus
 
-Kyseessä on hyppelypeli, jossa hiirtä siirtelemällä yritetään 
+Sovellus on hyppelypeli, jossa hiirtä siirtelemällä yritetään 
 saada hahmo hyppimään yhä vain korkeammalle satunnaisgeneroituja 
-tasoja pitkin. Pisteitä saa osuessaan uudelle alustalle ensimmäisen kerran.
-Pisteitä voi lisätä ja peliä helpottaa myös erilaisilla boosteilla. 
+tasoja pitkin ja kerätä pisteitä.
 
 ## Käyttäjät
 
-Alustavasti peliin on tulossa vain yksi käyttäjärooli, pelaaja.
+Pelissä on tällä hetkellä vain yksi käyttäjärooli, pelaaja. Jatkossa peliin 
+on mahdollista lisätä myös admin-rooli.
 
 ## Käyttöliittymä
 
-Sovellus koostuu useasta näkymästä: ensimmäisessä valitaan uusi peli, high score
-tai ohjeiden lukeminen, toinen näkymä on pelin ohjeille, kolmannessa asetetaan 
-nimimerkki high score -listaa varten ja mahdollisia muita asetuksia, neljäs
-on itse peli, ja viides on high score -listaus. Lisäksi mahdollisesti oma näkymä 
-esim. pelin introlle ja try again -tyyppinen näkymä kuollessa. Mikäli peliin tuotetaan 
-kirjautumistoiminnallisuus tai erilliset pelitallennukset, tarvitaan näille 
-mahdollisesti vielä yksi lisänäkymä.
-
-![kayttoliittymaluonnos.jpg](https://github.com/sonjaheikkinen/ot-harjoitustyo/blob/master/dokumentointi/kuvat/kayttoliittymaluonnos.jpg)
+Sovellus koostuu useasta näkymästä: ensimmäisessä valitaan sisäänkirjautuminen
+tai uuden tunnuksen luominen, jonka jälkeen avautuvat näitä toimintoja toteuttavat
+näkymät. Kun käyttäjä on kirjatunut tai rekisteröitynyt, avautuu 
+"aloitusnäkymä", josta valitaan uuden pelin aloitus, high score -listauksen tarkastelu 
+tai ohjeiden lukeminen. Pelille ja ohjeille on omat näkymänsä. High Score -nappi 
+vie näkymään, josta valitaan vielä halutaanko tarkastella henkilökohtaista vai yleistä 
+listausta, jonka jälkeen näytetään valintaa noudattava listaus.
 
 ## Perusversion toiminnallisuus
 
-- Hahmo siirty sivusuunnassa hiirtä liikuttamalla ja hyppää osuessaan hyppyalustaan
-- Pisteitä saa osuessaan hyppyalustaan
-- Parhaat pisteet tallennetaan high score -listaukseen
+### Pelitoiminnot 
+
+- Hahmo siirty sivusuunnassa hiirtä liikuttamalla ja hyppää osuessaan hyppyalustaan.
+- Pelaaja saa pisteitä osuessaan hyppyalustaan.
+- Pelaaja saa lisää elämiä keräämällä boosteja, ja menettää niitä osumalla ansoihin.
+- Jos elämät tippuvat nollaan, pelaaja kuolee seuraavasta osumasta.
+- Pelin edetessä ansoja generoidaan yhä enemmän, jolloin peli vaikeutuu
+
+### Muut toiminnot
+
+- Pistetulokset tallennetaan tietokantaan, josta voidaan sitten hakea parhaat pisteet. 
+- Pelaaja luo oman käyttäjätunnuksen ja salasanan, mikä mahdollistaa henkilökohtaisten tulosten tarkastelun.
+- Pelaaja voi lisäksi tarkastella yleisiä high score -tietoja, ja lukea pelin ohjeet
 
 ## Jatkokehitysideoita
 
-Perustoiminnallisuuden lisäksi peliä voidaan ajan salliessa täydentää esim. 
+Perustoiminnallisuutta voidaan jatkokehityksessä täydentää esim. 
 seuraavilla toiminnoilla: 
 
-- Peli vaikeutuu sen edetessä 
+- Uusia tapoja vaikeuttaa peliä sen edetessä:
   - tasot generoituvat kauemmas toisistaan ja/tai tippuvat nopeammin
   - sivu- ja pystysuunnassa liikkuvia tasoja
-  - tappavia peliobjekteja, joihin ei saa osua
-- Peliä voi helpottaa erilaisilla boosteilla
+- Erilaisia boosteja lisäelämien rinnalle
   - superhypyt
-  - aseet joilla voi tuhota asioita joihin ei saa osua
+  - aseet joilla voi tuhota ansoja
   - pisteboostit, esim. tuplapisteet kymmenen sekunnin ajaksi
-  - lisäelämät
-- Kivaa pikku tilpehööriä:
-  - peligrafiikka
-  - mahdollisuus valita hahmon väri
-  - taustakoristeet
-
+- peligrafiikka
+- Admin-rooli ylläpitoa varten
+- Jonkinlainen tietoturva salasanoihin, nykyinen toteutus on lähinnä kosmeettinen
+- Tietokannan siivous säännöllisesti huonommista tuloksista, jottei se täyttyisi liikaa
+- HighScore tietojen talletus internetiin, jolloin pelaajat voivat tarkastella myös globaaleja, eikä vain oman tietokoneensa sisäisiä tulostietoja
+- Kirjautunut käyttäjä voi valita erilaisten teemojen väliltä, ja tieto valinnasta talletetaan tietokantaan, josta käyttöliittymä sitten hakee kulloinkin käytettävän css-tiedoston nimen.

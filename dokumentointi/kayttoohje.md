@@ -1,8 +1,9 @@
 # Käyttöohje
 
-Lataa tiedostot JumpingGame.jar, highScores.txt ja stylesheet.css uusimmasta 
-[releasesta](https://github.com/sonjaheikkinen/ot-harjoitustyo/releases). Sijoita 
-ne samaan kansioon. 
+Lataa tiedostot JumpingGame.jar, highScores.h2.db, highScores.trace.db ja 
+stylesheet.css uusimmasta 
+[releasesta](https://github.com/sonjaheikkinen/ot-harjoitustyo/releases). 
+Sijoita ne samaan kansioon. 
 
 ## Ohjelman käynnistäminen 
 
@@ -12,13 +13,19 @@ Ohjelma käynnistetään komennolla
 java -jar JumpingGame.jar
 ```
 
-## Pelin aloitus
+## Käytön aloitus
 
-Peli käynnistyy aloitusnäkymään. Jos haluat lukea peliohjeet, paina nappia How To Play.
-High score -listauksen löydät High Scores -napin takaa. Näistä molemmista pääset 
-takaisin aloitusnäkymään painamalla nappia Back. Sekä aloitusnäkymästä, että 
-ohjenäkymästä voit käynnistää uuden pelin painamalla nappia New Game. Syötä haluamasi 
-nimimerkki kentään Name (vain kirjaimia tai numeroita), ja paina Start Game. 
+Peli käynnistyy aloitusnäkymään. Valitse joko kirjautuminen tai uuden tunnuksen 
+luominen, jos sinulla ei vielä ole tunnusta. Syötä avautuvaan ikkunaan nimimerkkisi 
+ja salasanasi. **Sovelluksessa ei vielä ole tietoturvaa, joten älä käytä oikeita 
+salasanojasi!**  
+
+Kirjauduttasi peli siirtyy toiseen aloitusnäkymään. Jos haluat lukea peliohjeet, 
+paina nappia How To Play. High score -listauksen löydät High Scores -napin takaa.
+Tällöin sinun tulee vielä valita, haluako lukea yleistä, vai henkilökohtaista 
+high scorea. Molemmista näkymistä pääset takaisin aloitusnäkymään painamalla nappia 
+Back. Sekä aloitusnäkymästä, että ohjenäkymästä voit käynnistää uuden pelin painamalla 
+nappia New Game. Käyttäjän vaihtaminen onnistuu napista Switch User.
 
 ## Pelaaminen
 
@@ -35,7 +42,7 @@ seuraavaan osumaan.
 ## Pelin päättyminen
 
 Pelihahmon kuoltua avautuu Game Over -ikkuna, josta näkyy nimimerkki ja kerätyt 
-pisteet. Try Again -napista voi yrittää peliä uudestaan samalla nimimerkillä. 
+pisteet. Try Again -napista voi yrittää peliä uudestaan. 
 Quit-napilla pääsee takaisin aloitusnäkymään. 
 
 ## Ohjelman sulkeminen

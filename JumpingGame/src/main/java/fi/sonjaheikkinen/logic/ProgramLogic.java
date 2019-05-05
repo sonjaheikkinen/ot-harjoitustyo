@@ -5,82 +5,59 @@
  */
 package fi.sonjaheikkinen.logic;
 
-import fi.sonjaheikkinen.filehandling.HighScoreHandler;
+import fi.sonjaheikkinen.dbhandling.DatabaseHandler;
 import java.util.ArrayList;
-import javafx.scene.control.TextField;
-import javafx.scene.text.Text;
 
 /**
- * Luokka ohjaa koko peliohjelman toimintaa. Se pitää kirjaa siitä, minkä niminen pelaaja on milläkin hetkellä 
- * pelaamassa käynnissä olevaa peliä, muistaa viimeksi päättyneen pelin pisteet, sekä päivittää highScore-listausta.
- * Luokka ei kuitenkaan ohjaa varsinaista peliä.
- * 
+ * Luokka ohjaa koko peliohjelman toimintaa. Se pitää kirjaa siitä, minkä
+ * niminen pelaaja on milläkin hetkellä pelaamassa käynnissä olevaa peliä,
+ * muistaa viimeksi päättyneen pelin pisteet, sekä päivittää
+ * highScore-listausta. Luokka ei kuitenkaan ohjaa varsinaista peliä.
+ *
  */
 public class ProgramLogic {
 
-    private HighScoreHandler hch;
+    private final DatabaseHandler dbh;
     private String currentPlayer;
     private long points;
     private ArrayList<String> scoreInfo;
 
-    public ProgramLogic() {
-        this.hch = new HighScoreHandler();
+    public ProgramLogic(String database) {
+        this.dbh = new DatabaseHandler(database);
         this.scoreInfo = new ArrayList<>();
     }
-    
+
     /**
-     * Metodi hakee tämänhetkisten pisteiden lukumäärän GameLogic-oliolta, ja päivittää sen omaan kirjanpitoonsa
-     * 
+     * Metodi hakee tämänhetkisten pisteiden lukumäärän GameLogic-oliolta, ja
+     * kutsuu sitten highScoreHandleria, joka tallettaa pisteet tietokantaan.
+     *
      * @param currentGame käynnissä olevaa peli-instassia ohjaava GameLogic-olio
      */
     public void updatePoints(GameLogic currentGame) {
         this.points = currentGame.getPoints();
+        this.dbh.addPoints(this.currentPlayer, currentGame.getPoints());
     }
 
     /**
-     * Metodi lisää uuden pelituloksen listaan, mikäli listan koko on pienempi kuin kymmenen, tai uusin tulos on
-     * suurempi kuin jokin listalla jo oleva tulos. Jos listan koko on lopuksi suurempi kuin kymmenen, pudotetaan pienin
-     * tulos pois, jotta listan koko palautuu oikeaksi. Apuna käytetään metodia addScoreToList()
+     * Metodi kutsuu parametrin perusteella databaseHandleria lukemaan joko
+     * yleiset tai henkilökohtaiset parhaat tulokset.
+     *
+     * @param highScoreType String-muuttuja, arvo "all" tai "personal"
      */
-    
-    public void updateHighScore() {
-        boolean added;
-        ArrayList<String> newHighScoreList = new ArrayList<>();
-        added = addScoreToList(newHighScoreList);
-        if (this.scoreInfo.size() < 10 && !added) {
-            newHighScoreList.add(this.currentPlayer + ":" + this.points);
+    public void updateHighScore(String highScoreType) {
+        //this.hch.createTables();
+        if (highScoreType.equals("all")) {
+            this.scoreInfo = this.dbh.readHighScore();
+        } else {
+            this.scoreInfo = this.dbh.readPersonalHighScore(this.currentPlayer);
         }
-        if (newHighScoreList.size() > 10) {
-            newHighScoreList.remove(newHighScoreList.size() - 1);
-        }
-        this.scoreInfo = newHighScoreList;
     }
 
     /**
-     * Metodi käy läpi tämänhetkisen high score -listauksen, ja sijoittaa uusimman tuloksen oikeaan kohtaan parametrina
-     * saatavaa tuloslistausta, mikäli uusin tulos on suurempi kuin jokin listalla jo oleva tulos. 
-     * @param newHighScoreList String-olioita sisältävä ArrayList, johon uusi tulos mahdollisesti lisätääns
-     * @return palautetaan true, jos uusin tulos lisättiin listaan, muuten false
-     */
-    public boolean addScoreToList(ArrayList<String> newHighScoreList) {
-        boolean added = false;
-        for (int i = 0; i < Math.min(scoreInfo.size(), 10); i++) {
-            String score = scoreInfo.get(i);
-            String[] info = score.split(":");
-            int scorePoints = Integer.parseInt(info[1]);
-            if (this.points >= scorePoints && !added) {
-                newHighScoreList.add(this.currentPlayer + ":" + this.points);
-                added = true;
-            }
-            newHighScoreList.add(score);
-        }
-        return added;
-    }
-
-    /**
-     * Metodi muokkaa high score -listauksen käyttäjäystävälliseksi merkkijonoksi. Jokainen tulos on muotoa: 
-     * (Järjestysnumero). pelaajanNimi, (pistemäärä) points
-     * 
+     * Metodi muokkaa high score -listauksen käyttäjäystävälliseksi
+     * merkkijonoksi. Jokainen tulos on muotoa: (Järjestysnumero). pelaajanNimi,
+     * (pistemäärä) points
+     *
      * @return high score -listaus merkkijonona
      */
     public String getHighScoreString() {
@@ -95,46 +72,59 @@ public class ProgramLogic {
     }
 
     /**
-     * Metodi tarkistaa, onko pelaajan itselleen määrittelemä nimimerkki sääntöjen mukainen. Jos kenttä on tyhjä, 
-     * syötetään parametrina annettuun infokenttään teksti "Name cannot be Empty". Jos kenttä sisältää erikoismerkkejä, 
-     * syötetään samaan kenttään teksti "Name should only contain numbers and letters from A to Ö". 
-     * 
-     * @param nameInstruction Infokenttä, joka tarvittaessa kertoo pelaajalle, miten nimimerkkiä pitää korjata, jotta se
-     * olisi hyväksytty
-     * @param playerName tekstikenttä, johon pelaaja on syöttänyt valitsemansa nimimerkin
-     * 
-     * @return palautetaan true, jos nimi on sääntöjen mukainen, muuten false
+     * Metodi kutsuu databaseHandleria, joka tarkistaa, löytyykö tietokannasta
+     * käyttäjätunnusta annetuilla tiedoilla, ja tarvittaessa tiedottaa
+     * käyttäjää vääristä tiedoista kirjoittamalla infotekstiin merkkijonon
+     * "Wrong username or password"
+     *
+     * @param name käyttäjätunnus
+     * @param password salasana
+     *
+     * @return String muuttuja, true jos käyttäjä löytyy, muuten viesti "Wrong username or password"
      */
-    public boolean checkName(Text nameInstruction, TextField playerName) {
-        if (playerName.getText().equals("") || playerName.getText() == null) {
-            nameInstruction.setText("Name cannot be empty");
-            return false;
-        } else if (!playerName.getText().matches("[a-öA-Ö0-9]+")) {
-            nameInstruction.setText("Name should only contain numbers and letters from A to Ö");
-            return false;
+    public String checkUserInfo(String name, String password) {
+        if (!this.dbh.searchUser(name, password)) {
+            return "Wrong username or password";
+        }
+        return "true";
+    }
+
+    /**
+     * Metodi tarkistaa rekisteröintitietojen kelvollisuuden, ja tarvittaessa
+     * kirjoittaa korjausohjeita muuttujaan infoText.
+     *
+     * @param name käyttäjätunnus
+     * @param password salasana
+     * 
+     * @return Merkkijono true, jos rekisteröintitiedot ok. Muussa tapauksessa palautetaan virheen spesifioiva merkkijono
+     */
+    public String checkRegisterInfo(String name, String password) {
+        if (name.equals("")) {
+            return "Name cannot be empty";
+        } else if (!name.matches("[a-öA-Ö0-9]+")) {
+            return "Name should only contain numbers and letters from A to Ö";
+        } else if (name.length() > 32) {
+            return "Maximum length of name is 32 characters";
+        } else if (this.dbh.nameTaken(name)) {
+            return "Name is already taken";
+        } else if (password.length() > 64) {
+            return "Maximum length of password is 64 characters";
+        } else if (password.equals("")) {
+            return "Password cannot be empty";
         } else {
-            nameInstruction.setText("");
-            return true;
+            return "true";
         }
     }
-    
+
     /**
-     * Metodi asettaa muuttujan scoreInfo arvoksi highScoreHandlerin metodin readHighScore palauttaman merkkijonon.
-     * 
-     * @param filename luettavan tiedoston nimi
+     * Metodi luo uuden käyttäjätunnuksen annetuilla parametreilla.
+     *
+     * @param name käyttäjänimi
+     * @param password salasana
      */
-    public void setScoreInfo(String filename) {
-        this.scoreInfo = this.hch.readHighScore(filename);
-    }
-    
-    /**
-     * Metodi kutsuu highScoreHandlerin metodia writeHighScore, ja antaa sille parametriksi pistetiedot sisältävän 
-     * merkkijonon scoreInfo.
-     * 
-     * @param filename kirjoitettavan tiedoston nimi
-     */
-    public void saveScoreInfo(String filename) {
-        this.hch.writeHighScore(this.scoreInfo, filename);
+    public void createNewUser(String name, String password) {
+        this.currentPlayer = name;
+        this.dbh.addUser(name, password);
     }
 
     public String getCurrentPlayer() {
@@ -155,6 +145,10 @@ public class ProgramLogic {
 
     public ArrayList<String> getScoreInfo() {
         return scoreInfo;
+    }
+
+    public DatabaseHandler getDatabaseHandler() {
+        return this.dbh;
     }
 
 }

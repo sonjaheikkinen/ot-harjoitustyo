@@ -16,14 +16,14 @@ import java.util.Random;
 public class GameLogic {
 
     private int points;
-    private int gameScreenWidth;
-    private int gameScreenHeight;
+    private final int gameScreenWidth;
+    private final int gameScreenHeight;
     private int pointIncrease;
     private int level;
-    private int fallingSpeed;
+    private final int fallingSpeed;
     private int nextGap;
     private int lives;
-    private Random random;
+    private final Random random;
     private double elapsedTimeInSeconds;
 
     private GameObject gameCharacter;
@@ -103,6 +103,7 @@ public class GameLogic {
     /**
      * Metodi päivittää kaikki pelitiedot suhteessa kuluneeseen aikaan. Tämä tapahtuu laskemalla kulunut aika 
      * sekunneissa, ja kutsumalla sitten muita metodeja, jotka hoitavat pelitietojen päivityksen.
+     * 
      * @param currentNanoTime nykyinen aika nanosekunneissa
      * @param lastNanoTime edellisen päivityksen ajankohta nanosekunteina
      */
@@ -212,7 +213,6 @@ public class GameLogic {
             if (this.level != 0) {
                 GameObject trap = this.traps.get(i);
                 if (trapGoesOffScreen(trap) || trap.getAction() || (trap.getVelocityY() == 0 && trap.getVelocityX() == 0)) {
-                    //trap gone over side or just created or does not move
                     rebootTrap(trap);
                 }
                 trap.update(this.elapsedTimeInSeconds);
@@ -397,9 +397,17 @@ public class GameLogic {
     public int getPoints() {
         return this.points;
     }
+    
+    public void setPoints(int points) {
+        this.points = points;
+    }
 
     public int getLives() {
         return this.lives;
+    }
+    
+    public void setLives(int lives) {
+        this.lives = lives;
     }
 
     public void setLevel(int level) {
@@ -424,6 +432,14 @@ public class GameLogic {
     
     public void setElapsedTimeInSeconds(double time) {
         this.elapsedTimeInSeconds = time;
+    }
+
+    public int getLevel() {
+        return this.level;
+    }
+    
+    public int getPointIncrease() {
+        return this.pointIncrease;
     }
 
 }

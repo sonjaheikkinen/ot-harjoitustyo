@@ -4,9 +4,12 @@ package fi.sonjaheikkinen.gui;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+/**
+ * Luokka huolehtii näkymien vaihtamisesta ikkunassa stage
+ */
 public class StageHandler {
     
-    private Stage stage;
+    private final Stage stage;
     private SceneConstructor scenes;
     
     public StageHandler(Stage stage) {
@@ -21,6 +24,9 @@ public class StageHandler {
         this.stage.setScene(scene);
     }
     
+    /**
+     * Metodi luo uuden gameOver-scenen ja asettaa sen näkyväksi stageen.
+     */
     public void gameOver() {
         this.scenes.createGameOverScene();
         this.stage.setScene(scenes.getGameOverScene());

@@ -49,6 +49,7 @@ public class GameObject {
 
     /**
      * Metodi palauttaa neliskulmion, jonka sijainti, leveys ja korkeus vastaavat pelioliota. 
+     * 
      * @return Rectangle2D-olio
      */
     public Rectangle2D getBoundary() {
@@ -61,6 +62,7 @@ public class GameObject {
      * rectangle2D:n metodia intersects, joka palauttaa true, jos nelikulmiot osuvat toisiinsa. 
      * 
      * @param other GameObject-olio, jonka rajoihin nykyisen olion rajoja verrataan
+     * 
      * @return true, jos oliot törmäävät, muuten false
      */
     public boolean intersects(GameObject other) {
@@ -69,6 +71,7 @@ public class GameObject {
 
     /**
      * Muuttaa olion liikettä lisäämällä tai vähentämällä sen liike-muuttujia anneituilla parametreilla
+     * 
      * @param x x-akselin suuntainen liikkeenmuutos
      * @param y y-akselin suuntainen liikkeenmuutos
      */

@@ -29,6 +29,7 @@ public class GameLogicTest {
     private ArrayList<GameObject> traps;
     private GameObject boost;
     private GameObject testPlatform;
+    private GameObject testTrap;
 
     public GameLogicTest() {
     }
@@ -53,6 +54,11 @@ public class GameLogicTest {
         this.testPlatform.setWidth(70);
         this.testPlatform.setPositionX(0);
         this.testPlatform.setPositionY(50);
+        this.testTrap = this.traps.get(0);
+        this.testTrap.setPositionX(100);
+        this.testTrap.setPositionY(100);
+        this.testTrap.setWidth(40);
+        this.testTrap.setHeight(40);
     }
 
     @After
@@ -156,6 +162,35 @@ public class GameLogicTest {
             }
         }
         assertEquals(moved, 10);
+    }
+    
+    @Test
+    public void moveTrapsRebootsTrapsWhenOneOfConditionsTrue() {
+        for (int i = 0; i < this.traps.size(); i++) {
+            this.traps.get(i).setPositionX(100);
+            this.traps.get(i).setPositionY(100);
+        }
+        this.traps.get(0).setAction(true);
+        this.traps.get(1).setPositionX(-100);
+        this.traps.get(1).setVelocityX(-100);
+        this.traps.get(2).setVelocityX(0);
+        this.traps.get(2).setVelocityY(0);
+        this.gameLogic.setElapsedTimeInSeconds(0);
+        this.gameLogic.setLevel(3);
+        this.gameLogic.moveTraps();
+        int rebooted = 0;
+        for (int i = 0; i < 3; i++) {
+            if (isOffScreen(this.traps.get(i))) {
+                rebooted++;
+            }
+        }
+        assertTrue(rebooted == 3);
+    }
+    
+    
+    
+    public boolean isOffScreen(GameObject trap) {
+        return trap.getPositionX() < 0 || trap.getPositionX() > 400 || trap.getPositionY() < 0 || trap.getPositionY() > 500;
     }
 
     public ArrayList<Double> getTrapPositions(String axis) {
@@ -276,5 +311,91 @@ public class GameLogicTest {
         }
         assertTrue(offScreen);
     }
+    
+    @Test
+    public void moveBoostMoves100PerSecondWhenActionStateFalse() {
+        this.boost.setAction(false);
+        this.boost.setPositionX(100);
+        this.boost.setPositionY(100);
+        this.gameLogic.setElapsedTimeInSeconds(1);
+        this.gameLogic.moveBoost();
+        assertTrue(this.boost.getPositionY() == 200);
+    }
 
+    @Test
+    public void detectDeathOnTrapReducesAmountOfLivesWhenThereAreLivesLeft() {
+        this.gameLogic.setLives(1);
+        this.character.setPositionX(110);
+        this.character.setPositionY(110);
+        this.gameLogic.detectDeathOnTrap();
+        assertTrue(this.gameLogic.getLives() == 0);
+    }
+
+    @Test
+    public void detectDeathOnTrapMovesCharacterOutOfScreenWhenNoLivesLeft() {
+        this.gameLogic.setLives(0);
+        this.character.setPositionX(110);
+        this.character.setPositionY(110);
+        this.gameLogic.detectDeathOnTrap();
+        assertTrue(this.character.getPositionY() > 500);
+    }
+
+    @Test
+    public void trapGoesOffScreenWorksTop() {
+        this.testTrap.setPositionY(-100);
+        this.testTrap.setVelocityY(-10);
+        assertTrue(this.gameLogic.trapGoesOffScreen(this.testTrap));
+    }
+
+    @Test
+    public void trapGoesOffScreenWorksBottom() {
+        this.testTrap.setPositionY(600);
+        this.testTrap.setVelocityY(10);
+        assertTrue(this.gameLogic.trapGoesOffScreen(this.testTrap));
+    }
+
+    @Test
+    public void trapGoesOffScreenWorksLeft() {
+        this.testTrap.setPositionX(-100);
+        this.testTrap.setVelocityX(-10);
+        assertTrue(this.gameLogic.trapGoesOffScreen(this.testTrap));
+    }
+
+    @Test
+    public void trapGoesOffScreenWorksRigth() {
+        this.testTrap.setPositionX(500);
+        this.testTrap.setVelocityX(10);
+        assertTrue(this.gameLogic.trapGoesOffScreen(this.testTrap));
+    }
+    
+    @Test
+    public void levelStaysSameWhenPointsSmallerThanNextGap() {
+        this.gameLogic.handleLevel();
+        assertTrue(this.gameLogic.getLevel() == 0);
+    }
+    
+    @Test
+    public void levelIncreasesWhenPointsMatchesNextGap() {
+        this.gameLogic.setPoints(20);
+        this.gameLogic.handleLevel();
+        assertTrue(this.gameLogic.getLevel() == 1);
+    }
+    
+    @Test
+    public void levelIncreasesWhenPointAmountMoreThanNextGap() {
+        this.gameLogic.setPoints(30);
+        this.gameLogic.handleLevel();
+        assertTrue(this.gameLogic.getLevel() == 1);
+    }
+    
+    @Test
+    public void pointIncreaseGrowsWhenLevelGrows() {
+        int pointIncrease = this.gameLogic.getPointIncrease();
+        this.gameLogic.setPoints(30);
+        this.gameLogic.handleLevel();
+        int pointIncrease2 = this.gameLogic.getPointIncrease();
+        assertTrue(pointIncrease2 > pointIncrease);
+    }
+    
+    
 }
