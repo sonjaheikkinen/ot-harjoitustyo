@@ -13,7 +13,7 @@ Peliä vaikeuttavat tappavat ansat, joilta voi suojautua lisäelämillä.
 
 [Käyttöohje](https://github.com/sonjaheikkinen/ot-harjoitustyo/blob/master/dokumentointi/kayttoohje.md)
 
-[Testausdokumentti](https://github.com/sonjaheikkinen/ot-harjotustyo/blob/master/dokumentointi/testaus.md)
+[Testausdokumentti](https://github.com/sonjaheikkinen/ot-harjoitustyo/blob/master/dokumentointi/testaus.md)
 
 [Työaikakirjanpito](https://github.com/sonjaheikkinen/ot-harjoitustyo/blob/master/dokumentointi/tyoaikakirjanpito.md)
 
