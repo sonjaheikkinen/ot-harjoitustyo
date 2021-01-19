@@ -11,9 +11,9 @@ Peliä vaikeuttavat tappavat ansat, joilta voi suojautua lisäelämillä.
 
 [Arkkitehtuurikuvaus](https://github.com/sonjaheikkinen/ot-harjoitustyo/blob/master/dokumentointi/arkkitehtuuri.md)
 
-[Käyttöohje](https://github.com/sonjaheikkinen/ot-harjoitustyo/blob/master/kayttoohje.md)
+[Käyttöohje](https://github.com/sonjaheikkinen/ot-harjoitustyo/blob/master/dokumentointikayttoohje.md)
 
-[Testausdokumentti](https://github.com/sonjaheikkinen/ot-harjotustyo/blob/master/testaus.md)
+[Testausdokumentti](https://github.com/sonjaheikkinen/ot-harjotustyo/blob/master/dokumentointi/testaus.md)
 
 [Työaikakirjanpito](https://github.com/sonjaheikkinen/ot-harjoitustyo/blob/master/dokumentointi/tyoaikakirjanpito.md)
 
